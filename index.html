@@ -239,10 +239,12 @@ nav {
   display: flex; align-items: center; gap: 14px;
 }
 .testi-avatar {
-  width: 44px; height: 44px; border-radius: 999px; background: var(--gold);
+  width: 44px; height: 44px; border-radius: 999px; background: var(--bg2);
   display: flex; align-items: center; justify-content: center;
-  font-size: .8rem; font-weight: 800; color: var(--white);
-  flex-shrink: 0;
+  flex-shrink: 0; overflow: hidden; border: 2px solid var(--gold);
+}
+.testi-avatar img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
 }
 .testi-info { display: flex; flex-direction: column; }
 .testi-name {
@@ -961,7 +963,7 @@ footer{background:var(--ink);padding:72px 56px 40px;}
       <div class="testi-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
       <p class="testi-text">Los productos son increíbles. Compré las extensiones y el adhesivo, y la calidad es exactamente como la describen. Se ven completamente naturales y me duran semanas.</p>
       <div class="testi-author">
-        <div class="testi-avatar">MR</div>
+        <div class="testi-avatar"><img src="" alt="María R."></div>
         <div class="testi-info">
           <span class="testi-name">María Rodríguez</span>
           <span class="testi-role">Clienta verificada</span>
@@ -973,7 +975,7 @@ footer{background:var(--ink);padding:72px 56px 40px;}
       <div class="testi-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
       <p class="testi-text">Tomé el curso online y fue la mejor inversión. Ahora aplico extensiones de manera profesional y ya tengo mis primeras clientas. El certificado internacional le da mucha seriedad.</p>
       <div class="testi-author">
-        <div class="testi-avatar">AG</div>
+        <div class="testi-avatar"><img src="" alt="Ana G."></div>
         <div class="testi-info">
           <span class="testi-name">Ana García</span>
           <span class="testi-role">Alumna certificada</span>
@@ -985,7 +987,7 @@ footer{background:var(--ink);padding:72px 56px 40px;}
       <div class="testi-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
       <p class="testi-text">La atención es de otro nivel. Me ayudaron a elegir el tono perfecto para mi color de piel y el resultado es impresionante. 100% recomendado, ya hice mi segunda compra.</p>
       <div class="testi-author">
-        <div class="testi-avatar">SL</div>
+        <div class="testi-avatar"><img src="" alt="Sofía L."></div>
         <div class="testi-info">
           <span class="testi-name">Sofía López</span>
           <span class="testi-role">Clienta verificada</span>
