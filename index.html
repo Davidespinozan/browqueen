@@ -148,7 +148,7 @@ nav {
 .sec-services{padding:96px 56px 88px;background:var(--ink);}
 .sec-services .head{text-align:center;margin-bottom:64px;} .sec-services .section-title{color:#fff;} .sec-services .section-eyebrow{color:var(--gold);}
 .sec-services .head .section-body{max-width:500px;margin:14px auto 0;color:rgba(255,255,255,.45);}
-.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1140px;margin:0 auto;}
+.services-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;max-width:800px;margin:0 auto;}
 .srv-card{background:var(--white);border-radius:20px;overflow:hidden;box-shadow:var(--shadow);transition:transform .3s var(--ease),box-shadow .3s;position:relative;display:flex;flex-direction:column;}
 .srv-card:hover{transform:translateY(-7px);box-shadow:var(--shadow-lg);}
 .srv-card-img{height:200px;background:var(--bg2);position:relative;overflow:hidden;flex-shrink:0;}
@@ -424,11 +424,6 @@ footer{background:var(--ink);padding:72px 56px 40px;}
   .ft-top { grid-template-columns: 1fr 1fr; gap: 32px; }
   footer { padding: 56px 24px 36px; }
   .ft-bottom { flex-direction: column; text-align: center; }
-  /* booking */
-  .bk-header { padding: 28px 24px 20px; }
-  .bk-body { padding: 20px 24px 28px; }
-  .bk-row { grid-template-columns: 1fr; }
-  .bk-slots { grid-template-columns: repeat(3,1fr); }
 }
 
 /* ─── RESPONSIVE MOBILE ─── */
@@ -601,222 +596,6 @@ footer{background:var(--ink);padding:72px 56px 40px;}
   #academyGrid { gap: 8px !important; }
 }
 
-/* ─── BOOKING MODAL ─── */
-.booking-overlay {
-  position: fixed; inset: 0; z-index: 1000;
-  background: rgba(26,26,26,.55);
-  backdrop-filter: blur(10px);
-  opacity: 0; pointer-events: none;
-  transition: opacity .3s;
-  display: flex; align-items: center; justify-content: center;
-  padding: 20px;
-}
-.booking-overlay.open { opacity: 1; pointer-events: all; }
-.booking-modal {
-  background: var(--white);
-  border-radius: 24px;
-  width: 100%; max-width: 680px;
-  max-height: 92vh; overflow-y: auto;
-  transform: translateY(20px) scale(.97);
-  transition: transform .35s var(--ease);
-  position: relative;
-}
-.booking-overlay.open .booking-modal { transform: none; }
-.bk-close {
-  position: absolute; top: 16px; right: 16px;
-  background: rgba(0,0,0,.07); border: none;
-  width: 36px; height: 36px; border-radius: 999px;
-  font-size: 1rem; cursor: pointer; color: var(--mid);
-  display: flex; align-items: center; justify-content: center;
-  transition: all .2s; z-index: 2;
-}
-.bk-close:hover { background: rgba(0,0,0,.14); color: var(--ink); }
-.bk-header {
-  padding: 36px 40px 24px;
-  border-bottom: 1px solid rgba(0,0,0,.07);
-}
-.bk-header .section-eyebrow { margin-bottom: 6px; }
-.bk-header h3 {
-  font-size: 1.5rem; font-weight: 900;
-  letter-spacing: -.02em; color: var(--ink);
-}
-.bk-header p { font-size: .76rem; color: var(--mid); margin-top: 6px; font-weight: 400; }
-.bk-body { padding: 28px 40px 36px; }
-
-/* Steps */
-.bk-steps {
-  display: flex; gap: 0; margin-bottom: 32px;
-}
-.bk-step {
-  flex: 1; text-align: center; position: relative;
-}
-.bk-step::after {
-  content: ''; position: absolute; top: 14px; left: 50%; right: -50%;
-  height: 2px; background: var(--bg2);
-  z-index: 0;
-}
-.bk-step:last-child::after { display: none; }
-.bk-step-dot {
-  width: 28px; height: 28px; border-radius: 999px;
-  border: 2px solid var(--bg2); background: var(--white);
-  display: flex; align-items: center; justify-content: center;
-  font-size: .58rem; font-weight: 800; color: var(--light);
-  margin: 0 auto 8px; position: relative; z-index: 1;
-  transition: all .3s;
-}
-.bk-step.active .bk-step-dot {
-  border-color: var(--gold); background: var(--gold); color: var(--white);
-}
-.bk-step.done .bk-step-dot {
-  border-color: var(--gold); background: var(--gold); color: var(--white);
-}
-.bk-step.done .bk-step-dot::after { content: '✓'; }
-.bk-step-label {
-  font-size: .5rem; letter-spacing: .16em; text-transform: uppercase;
-  color: var(--light); font-weight: 700; transition: color .3s;
-}
-.bk-step.active .bk-step-label { color: var(--gold); }
-.bk-step.done .bk-step-label { color: var(--gold2); }
-
-/* Step panels */
-.bk-panel { display: none; }
-.bk-panel.active { display: block; }
-
-/* Step 1 — calendar */
-.bk-cal-label {
-  font-size: .56rem; letter-spacing: .3em; text-transform: uppercase;
-  font-weight: 700; color: var(--mid); margin-bottom: 16px;
-}
-.bk-cal-header {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 16px;
-}
-.bk-cal-month {
-  font-size: .88rem; font-weight: 800; color: var(--ink);
-  letter-spacing: -.01em;
-}
-.bk-cal-nav {
-  background: none; border: 1.5px solid rgba(0,0,0,.14);
-  border-radius: 999px; width: 32px; height: 32px; cursor: pointer;
-  font-size: .8rem; color: var(--ink);
-  display: flex; align-items: center; justify-content: center;
-  transition: all .2s;
-}
-.bk-cal-nav:hover { border-color: var(--gold); color: var(--gold); }
-.bk-cal-grid {
-  display: grid; grid-template-columns: repeat(7,1fr); gap: 4px;
-}
-.bk-cal-dow {
-  text-align: center; font-size: .48rem; letter-spacing: .18em;
-  text-transform: uppercase; font-weight: 700; color: var(--light);
-  padding: 6px 0;
-}
-.bk-cal-day {
-  aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
-  border-radius: 999px; font-size: .72rem; font-weight: 600;
-  cursor: pointer; transition: all .2s; border: 1.5px solid transparent;
-  color: var(--ink);
-}
-.bk-cal-day:hover:not(.empty):not(.past) { border-color: var(--gold); color: var(--gold); }
-.bk-cal-day.selected { background: var(--gold); color: var(--white) !important; border-color: var(--gold); }
-.bk-cal-day.today { font-weight: 900; color: var(--gold); }
-.bk-cal-day.past { color: var(--light); opacity: .4; cursor: not-allowed; }
-.bk-cal-day.empty { cursor: default; }
-
-/* Step 2 — time slots */
-.bk-slots {
-  display: grid; grid-template-columns: repeat(4,1fr); gap: 10px;
-  margin-top: 8px;
-}
-.bk-slot {
-  border: 1.5px solid rgba(0,0,0,.12); border-radius: 12px;
-  padding: 12px 8px; text-align: center;
-  font-size: .66rem; font-weight: 700; cursor: pointer;
-  transition: all .22s var(--ease); color: var(--ink);
-  background: var(--white);
-}
-.bk-slot:hover { border-color: var(--gold); color: var(--gold); }
-.bk-slot.selected { background: var(--gold); border-color: var(--gold); color: var(--white); }
-.bk-slot.unavailable { opacity: .35; cursor: not-allowed; background: var(--bg2); }
-.bk-selected-date {
-  background: var(--bg); border-radius: 14px; padding: 14px 18px;
-  font-size: .76rem; font-weight: 600; color: var(--ink);
-  margin-bottom: 20px; display: flex; align-items: center; gap: 10px;
-}
-.bk-selected-date span { color: var(--gold); font-weight: 800; }
-
-/* Step 3 — form */
-.bk-form { display: flex; flex-direction: column; gap: 16px; }
-.bk-field label {
-  display: block; font-size: .52rem; letter-spacing: .22em;
-  text-transform: uppercase; font-weight: 700; color: var(--mid);
-  margin-bottom: 7px;
-}
-.bk-field input, .bk-field select, .bk-field textarea {
-  width: 100%; padding: 13px 16px;
-  border: 1.5px solid rgba(0,0,0,.14); border-radius: 12px;
-  font-family: 'Montserrat'; font-size: .82rem; font-weight: 500;
-  color: var(--ink); background: var(--white);
-  transition: border-color .2s, box-shadow .2s; outline: none;
-}
-.bk-field input:focus, .bk-field select:focus, .bk-field textarea:focus {
-  border-color: var(--gold);
-  box-shadow: 0 0 0 3px rgba(201,162,75,.15);
-}
-.bk-field textarea { resize: none; height: 80px; }
-.bk-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.bk-summary {
-  background: var(--bg); border-radius: 16px; padding: 18px 20px;
-  margin-bottom: 4px;
-}
-.bk-summary-row {
-  display: flex; justify-content: space-between; align-items: center;
-  font-size: .74rem; padding: 5px 0;
-}
-.bk-summary-row:not(:last-child) { border-bottom: 1px solid rgba(0,0,0,.06); }
-.bk-summary-label { color: var(--mid); font-weight: 500; }
-.bk-summary-val { font-weight: 700; color: var(--ink); }
-
-/* Navigation buttons */
-.bk-nav {
-  display: flex; justify-content: space-between; align-items: center;
-  margin-top: 28px; gap: 12px;
-}
-.bk-btn-back {
-  background: none; border: 1.5px solid rgba(0,0,0,.14);
-  border-radius: 999px; padding: 12px 28px;
-  font-family: 'Montserrat'; font-size: .6rem; font-weight: 700;
-  letter-spacing: .12em; text-transform: uppercase;
-  cursor: pointer; color: var(--mid); transition: all .22s;
-}
-.bk-btn-back:hover { border-color: var(--ink); color: var(--ink); }
-.bk-btn-next {
-  background: var(--ink); color: var(--white);
-  border: none; border-radius: 999px; padding: 13px 40px;
-  font-family: 'Montserrat'; font-size: .6rem; font-weight: 700;
-  letter-spacing: .12em; text-transform: uppercase;
-  cursor: pointer; transition: all .22s var(--ease); flex: 1;
-}
-.bk-btn-next:hover { background: var(--gold); transform: translateY(-1px); box-shadow: 0 8px 22px rgba(201,162,75,.35); }
-.bk-btn-next:disabled { opacity: .4; cursor: not-allowed; transform: none; box-shadow: none; }
-
-/* Success state */
-.bk-success {
-  text-align: center; padding: 48px 40px;
-}
-.bk-success-ico {
-  width: 72px; height: 72px; border-radius: 999px;
-  background: rgba(201,162,75,.12); border: 2px solid var(--gold);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 2rem; margin: 0 auto 24px;
-}
-.bk-success h3 { font-size: 1.4rem; font-weight: 900; margin-bottom: 12px; }
-.bk-success p { font-size: .82rem; color: var(--mid); line-height: 1.85; font-weight: 400; }
-.bk-success-details {
-  background: var(--bg); border-radius: 16px; padding: 18px 20px;
-  margin: 24px 0; text-align: left;
-}
-
 /* ─── FLOATING SOCIALS ─── */
 .float-socials {
   position: fixed;
@@ -875,116 +654,6 @@ footer{background:var(--ink);padding:72px 56px 40px;}
 </head>
 <body>
 
-<!-- BOOKING MODAL -->
-<div class="booking-overlay" id="bookingOverlay">
-  <div class="booking-modal" id="bookingModal">
-    <button class="bk-close" onclick="closeBooking()">✕</button>
-
-    <div class="bk-header">
-      <div class="section-eyebrow">Brow Queen</div>
-      <h3>Reserva tu cita</h3>
-      <p>Extensiones de cejas Hyper-Realistic · Sesión individual</p>
-    </div>
-
-    <div class="bk-body">
-      <!-- Steps indicator -->
-      <div class="bk-steps">
-        <div class="bk-step active" id="step-ind-1">
-          <div class="bk-step-dot">1</div>
-          <div class="bk-step-label">Fecha</div>
-        </div>
-        <div class="bk-step" id="step-ind-2">
-          <div class="bk-step-dot">2</div>
-          <div class="bk-step-label">Horario</div>
-        </div>
-        <div class="bk-step" id="step-ind-3">
-          <div class="bk-step-dot">3</div>
-          <div class="bk-step-label">Tus datos</div>
-        </div>
-      </div>
-
-      <!-- Step 1: Calendar -->
-      <div class="bk-panel active" id="bk-panel-1">
-        <div class="bk-cal-label">Selecciona una fecha</div>
-        <div class="bk-cal-header">
-          <button class="bk-cal-nav" onclick="calPrev()">‹</button>
-          <div class="bk-cal-month" id="calMonth"></div>
-          <button class="bk-cal-nav" onclick="calNext()">›</button>
-        </div>
-        <div class="bk-cal-grid" id="calGrid"></div>
-        <div class="bk-nav">
-          <span></span>
-          <button class="bk-btn-next" id="btn-to-2" onclick="goStep(2)" disabled>Continuar →</button>
-        </div>
-      </div>
-
-      <!-- Step 2: Time slots -->
-      <div class="bk-panel" id="bk-panel-2">
-        <div class="bk-selected-date" id="selectedDateLabel">📅 <span id="selectedDateText"></span></div>
-        <div class="bk-cal-label">Selecciona un horario</div>
-        <div class="bk-slots" id="slotsGrid"></div>
-        <div class="bk-nav">
-          <button class="bk-btn-back" onclick="goStep(1)">← Volver</button>
-          <button class="bk-btn-next" id="btn-to-3" onclick="goStep(3)" disabled>Continuar →</button>
-        </div>
-      </div>
-
-      <!-- Step 3: Form -->
-      <div class="bk-panel" id="bk-panel-3">
-        <div class="bk-summary" id="bkSummary"></div>
-        <div class="bk-form">
-          <div class="bk-row">
-            <div class="bk-field">
-              <label>Nombre</label>
-              <input type="text" id="bkNombre" placeholder="Tu nombre" oninput="checkForm()">
-            </div>
-            <div class="bk-field">
-              <label>Apellido</label>
-              <input type="text" id="bkApellido" placeholder="Tu apellido" oninput="checkForm()">
-            </div>
-          </div>
-          <div class="bk-row">
-            <div class="bk-field">
-              <label>Teléfono</label>
-              <input type="tel" id="bkTel" placeholder="+52 55 1234 5678" oninput="checkForm()">
-            </div>
-            <div class="bk-field">
-              <label>Email</label>
-              <input type="email" id="bkEmail" placeholder="tu@email.com" oninput="checkForm()">
-            </div>
-          </div>
-          <div class="bk-field">
-            <label>¿Es tu primera vez? (opcional)</label>
-            <select id="bkPrimera">
-              <option value="">Selecciona...</option>
-              <option value="si">Sí, es mi primera vez</option>
-              <option value="no">No, ya he tenido extensiones antes</option>
-            </select>
-          </div>
-          <div class="bk-field">
-            <label>Notas adicionales (opcional)</label>
-            <textarea id="bkNotas" placeholder="Alergias, preferencias, preguntas..."></textarea>
-          </div>
-        </div>
-        <div class="bk-nav">
-          <button class="bk-btn-back" onclick="goStep(2)">← Volver</button>
-          <button class="bk-btn-next" id="btn-confirmar" onclick="confirmarCita()" disabled>Confirmar cita ✓</button>
-        </div>
-      </div>
-
-      <!-- Success -->
-      <div class="bk-panel" id="bk-panel-success">
-        <div class="bk-success">
-          <div class="bk-success-ico" style="color:var(--gold);font-size:2rem;">✦</div>
-          <h3>¡Cita reservada!</h3>
-          <p>Tu cita ha sido registrada exitosamente. Te contactaremos por WhatsApp para confirmar los detalles.</p>
-          <div class="bk-success-details" id="successDetails"></div>
-          <button class="bk-btn-next" style="margin-top:8px" onclick="closeBooking()">Listo</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
 <!-- PRODUCT MODAL -->
 <div class="modal-overlay" id="productModal">
@@ -1079,7 +748,7 @@ footer{background:var(--ink);padding:72px 56px 40px;}
       <button class="n-cart-btn" onclick="openCart()">
         Carrito &nbsp;<span class="cart-count" id="navCartCount">0</span>
       </button>
-      <a href="#" onclick="event.preventDefault();openBooking()" class="n-btn n-btn-fill">Reservar cita</a>
+      <a href="#tienda" class="n-btn n-btn-fill">Ver tienda</a>
     </div>
   </div>
 </nav>
@@ -1091,10 +760,10 @@ footer{background:var(--ink);padding:72px 56px 40px;}
   <div class="hero-content">
     <div class="hero-tag">Hyper-Realistic Brow Extensions</div>
     <h1 class="hero-h1">La ceja<br><em>perfecta</em><br>existe.</h1>
-    <p class="hero-sub">Extensiones pelo a pelo con 100% cabello humano real. Diseño completamente personalizado para tu rostro. Resultados naturales hasta 2 meses.</p>
+    <p class="hero-sub">Extensiones pelo a pelo con 100% cabello humano real. Productos profesionales y formación certificada para profesionales.</p>
     <div class="hero-btns">
-      <a href="#" onclick="event.preventDefault();openBooking()" class="btn-gold">Reserva tu cita</a>
-      <a href="#tienda" class="btn-ghost">Ver productos</a>
+      <a href="#tienda" class="btn-gold">Ver productos</a>
+      <a href="#academia" class="btn-ghost">Academia BQ</a>
     </div>
 
   </div>
@@ -1116,18 +785,10 @@ footer{background:var(--ink);padding:72px 56px 40px;}
 <section class="sec-services" id="servicios">
   <div class="head">
     <span class="section-eyebrow rv">El universo Brow Queen</span>
-    <h2 class="section-title rv d1">Tres formas de vivir<br>tus cejas <em>perfectas</em></h2>
+    <h2 class="section-title rv d1">Dos formas de vivir<br>tus cejas <em>perfectas</em></h2>
     <p class="section-body rv d2">Un ecosistema completo pensado para la mujer que no transa con su imagen.</p>
   </div>
   <div class="services-grid">
-    <div class="srv-card rv">
-      <div class="srv-card-img"><img src="https://ltveorvqvvlyivjwxjlc.supabase.co/storage/v1/object/public/brownqueen/serviciodecejas.jpg" alt="Servicio de Cejas"></div>
-      <div class="srv-card-body">
-        <h3 class="srv-title">Servicio de Cejas</h3>
-        <p class="srv-body">Extensiones pelo a pelo aplicadas por especialistas certificadas. Diseño personalizado según tu morfología, tono de piel y estilo. Una transformación completa en una sola sesión.</p>
-        <a href="#" onclick="event.preventDefault();openBooking()" class="srv-link">Agendar cita</a>
-      </div>
-    </div>
     <div class="srv-card rv d1">
       <div class="srv-card-img"><img src="https://ltveorvqvvlyivjwxjlc.supabase.co/storage/v1/object/public/brownqueen/tiendaprofesional.jpg" alt="Tienda Profesional"></div>
       <div class="srv-card-body">
@@ -1200,9 +861,9 @@ footer{background:var(--ink);padding:72px 56px 40px;}
 
 <!-- CTA -->
 <section class="sec-cta" id="contacto">
-  <span class="section-eyebrow rv">Agenda · Compra · Aprende</span>
+  <span class="section-eyebrow rv">Compra · Aprende</span>
   <h2 class="section-title rv d1">¿Lista para tu<br>experiencia <em>Brow Queen?</em></h2>
-  <p class="section-body rv d2">Reserva tu cita, haz tu pedido o infórmate sobre los cursos. Respondemos en menos de 2 horas.</p>
+  <p class="section-body rv d2">Haz tu pedido o infórmate sobre los cursos. Respondemos en menos de 2 horas.</p>
   <div class="cta-btns rv d3">
     <a href="https://wa.me/521234567890" class="btn-cta-dark">WhatsApp →</a>
   </div>
@@ -1213,16 +874,16 @@ footer{background:var(--ink);padding:72px 56px 40px;}
   <div class="ft-top">
     <div class="ft-brand">
       <div class="ft-logo"><img src="https://ltveorvqvvlyivjwxjlc.supabase.co/storage/v1/object/public/brownqueen/brownqueenlogo.png?v=2" alt="Brow Queen"></div>
-      <p class="ft-about">Extensiones de cejas 100% cabello humano real. Servicio personalizado, productos profesionales y formación certificada.</p>
+      <p class="ft-about">Extensiones de cejas 100% cabello humano real. Productos profesionales y formación certificada.</p>
       <div class="ft-soc">
         <a href="#" class="ft-soc-btn">IG</a><a href="#" class="ft-soc-btn">WA</a>
         <a href="#" class="ft-soc-btn">TK</a><a href="#" class="ft-soc-btn">FB</a>
       </div>
     </div>
-    <div class="ft-col"><h5>Servicios</h5><ul>
-      <li><a href="#servicios">Extensiones de cejas</a></li>
-      <li><a href="#servicios">Diseño personalizado</a></li>
-      <li><a href="#contacto">Agendar cita</a></li>
+    <div class="ft-col"><h5>Productos</h5><ul>
+      <li><a href="#tienda">Brow Extensions</a></li>
+      <li><a href="#tienda">Accesorios profesionales</a></li>
+      <li><a href="#contacto">Contacto</a></li>
     </ul></div>
     <div class="ft-col"><h5>Tienda</h5><ul>
       <li><a href="#tienda">Brow Extensions</a></li>
@@ -1572,256 +1233,6 @@ const io = new IntersectionObserver(
 );
 document.querySelectorAll('.rv').forEach(el => io.observe(el));
 
-
-// ═══════════════════════════════
-// BOOKING SYSTEM
-// ═══════════════════════════════
-const SUPABASE_URL = 'https://ltveorvqvvlyivjwxjlc.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx0dmVvcnZxdnZseWl2and4amxjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDAwMDAwMDAsImV4cCI6MjAxNTM2MDAwMH0.PLACEHOLDER';
-
-// Available time slots
-const TIME_SLOTS = [
-  '09:00', '10:00', '11:00', '12:00',
-  '13:00', '14:00', '15:00', '16:00',
-  '17:00', '18:00'
-];
-
-// Booking state
-let bkState = {
-  step: 1,
-  year: null, month: null,   // calendar nav
-  selectedDate: null,         // 'YYYY-MM-DD'
-  selectedTime: null,
-  bookedSlots: []             // slots already taken from Supabase
-};
-
-function openBooking() {
-  const now = new Date();
-  bkState.year = now.getFullYear();
-  bkState.month = now.getMonth();
-  bkState.selectedDate = null;
-  bkState.selectedTime = null;
-  goStep(1);
-  renderCal();
-  document.getElementById('bookingOverlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-
-function closeBooking() {
-  document.getElementById('bookingOverlay').classList.remove('open');
-  document.body.style.overflow = '';
-  // reset panels
-  goStep(1);
-  document.getElementById('bkNombre').value = '';
-  document.getElementById('bkApellido').value = '';
-  document.getElementById('bkTel').value = '';
-  document.getElementById('bkEmail').value = '';
-  document.getElementById('bkNotas').value = '';
-}
-
-document.getElementById('bookingOverlay').addEventListener('click', function(e) {
-  if (e.target === this) closeBooking();
-});
-
-// ── STEPS ──
-function goStep(n) {
-  bkState.step = n;
-  [1,2,3,'success'].forEach(s => {
-    const panel = document.getElementById('bk-panel-' + s);
-    if (panel) panel.classList.toggle('active', s === n);
-  });
-  // Update step indicators
-  [1,2,3].forEach(i => {
-    const ind = document.getElementById('step-ind-' + i);
-    if (!ind) return;
-    ind.classList.remove('active','done');
-    if (i === n) ind.classList.add('active');
-    else if (i < n) ind.classList.add('done');
-  });
-  if (n === 2) renderSlots();
-  if (n === 3) renderSummary();
-}
-
-// ── CALENDAR ──
-const MONTHS_ES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-const DAYS_ES   = ['Lu','Ma','Mi','Ju','Vi','Sá','Do'];
-
-function calPrev() {
-  bkState.month--;
-  if (bkState.month < 0) { bkState.month = 11; bkState.year--; }
-  renderCal();
-}
-function calNext() {
-  bkState.month++;
-  if (bkState.month > 11) { bkState.month = 0; bkState.year++; }
-  renderCal();
-}
-
-function renderCal() {
-  const { year, month } = bkState;
-  document.getElementById('calMonth').textContent = MONTHS_ES[month] + ' ' + year;
-  const grid = document.getElementById('calGrid');
-
-  // Day-of-week headers (Mon-Sun)
-  let html = DAYS_ES.map(d => `<div class="bk-cal-dow">${d}</div>`).join('');
-
-  const first = new Date(year, month, 1);
-  const lastDay = new Date(year, month + 1, 0).getDate();
-  const today = new Date();
-  today.setHours(0,0,0,0);
-
-  // Monday-based offset
-  let startDow = first.getDay(); // 0=Sun
-  startDow = startDow === 0 ? 6 : startDow - 1;
-  for (let i = 0; i < startDow; i++) html += '<div class="bk-cal-day empty"></div>';
-
-  for (let d = 1; d <= lastDay; d++) {
-    const date = new Date(year, month, d);
-    const isPast = date < today;
-    const isSun = date.getDay() === 0;
-    const isToday = date.toDateString() === today.toDateString();
-    const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    const isSelected = bkState.selectedDate === dateStr;
-    const cls = [
-      'bk-cal-day',
-      isPast || isSun ? 'past' : '',
-      isToday ? 'today' : '',
-      isSelected ? 'selected' : ''
-    ].filter(Boolean).join(' ');
-    const click = (!isPast && !isSun) ? `onclick="selectDate('${dateStr}')"` : '';
-    html += `<div class="${cls}" ${click}>${d}</div>`;
-  }
-
-  grid.innerHTML = html;
-}
-
-function selectDate(dateStr) {
-  bkState.selectedDate = dateStr;
-  bkState.selectedTime = null;
-  renderCal();
-  document.getElementById('btn-to-2').disabled = false;
-  // Fetch booked slots from Supabase
-  fetchBookedSlots(dateStr);
-}
-
-async function fetchBookedSlots(dateStr) {
-  try {
-    const res = await fetch(
-      `${SUPABASE_URL}/rest/v1/citas?fecha=eq.${dateStr}&select=hora`,
-      { headers: { apikey: SUPABASE_KEY, Authorization: 'Bearer ' + SUPABASE_KEY } }
-    );
-    const data = await res.json();
-    bkState.bookedSlots = Array.isArray(data) ? data.map(r => r.hora) : [];
-  } catch(e) {
-    bkState.bookedSlots = [];
-  }
-}
-
-// ── SLOTS ──
-function renderSlots() {
-  const dateObj = new Date(bkState.selectedDate + 'T12:00:00');
-  const formatted = dateObj.toLocaleDateString('es-MX', { weekday:'long', day:'numeric', month:'long' });
-  document.getElementById('selectedDateText').textContent =
-    formatted.charAt(0).toUpperCase() + formatted.slice(1);
-
-  const grid = document.getElementById('slotsGrid');
-  grid.innerHTML = TIME_SLOTS.map(t => {
-    const taken = bkState.bookedSlots.includes(t);
-    const selected = bkState.selectedTime === t;
-    const cls = ['bk-slot', taken ? 'unavailable' : '', selected ? 'selected' : ''].filter(Boolean).join(' ');
-    const click = !taken ? `onclick="selectSlot('${t}')"` : '';
-    return `<div class="${cls}" ${click}>${t}</div>`;
-  }).join('');
-}
-
-function selectSlot(time) {
-  bkState.selectedTime = time;
-  renderSlots();
-  document.getElementById('btn-to-3').disabled = false;
-}
-
-// ── SUMMARY ──
-function renderSummary() {
-  const dateObj = new Date(bkState.selectedDate + 'T12:00:00');
-  const formatted = dateObj.toLocaleDateString('es-MX', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
-  document.getElementById('bkSummary').innerHTML = `
-    <div class="bk-summary-row">
-      <span class="bk-summary-label">Servicio</span>
-      <span class="bk-summary-val">Extensiones de Cejas BQ</span>
-    </div>
-    <div class="bk-summary-row">
-      <span class="bk-summary-label">Fecha</span>
-      <span class="bk-summary-val">${formatted.charAt(0).toUpperCase() + formatted.slice(1)}</span>
-    </div>
-    <div class="bk-summary-row">
-      <span class="bk-summary-label">Hora</span>
-      <span class="bk-summary-val">${bkState.selectedTime} hrs</span>
-    </div>
-  `;
-  checkForm();
-}
-
-function checkForm() {
-  const ok = document.getElementById('bkNombre').value.trim() &&
-             document.getElementById('bkApellido').value.trim() &&
-             document.getElementById('bkTel').value.trim() &&
-             document.getElementById('bkEmail').value.trim();
-  const btn = document.getElementById('btn-confirmar');
-  if (btn) btn.disabled = !ok;
-}
-
-// ── CONFIRM → SAVE TO SUPABASE ──
-async function confirmarCita() {
-  const btn = document.getElementById('btn-confirmar');
-  btn.disabled = true;
-  btn.textContent = 'Guardando...';
-
-  const payload = {
-    fecha:      bkState.selectedDate,
-    hora:       bkState.selectedTime,
-    nombre:     document.getElementById('bkNombre').value.trim(),
-    apellido:   document.getElementById('bkApellido').value.trim(),
-    telefono:   document.getElementById('bkTel').value.trim(),
-    email:      document.getElementById('bkEmail').value.trim(),
-    primera_vez: document.getElementById('bkPrimera').value || null,
-    notas:      document.getElementById('bkNotas').value.trim() || null,
-    estado:     'pendiente'
-  };
-
-  try {
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/citas`, {
-      method: 'POST',
-      headers: {
-        apikey: SUPABASE_KEY,
-        Authorization: 'Bearer ' + SUPABASE_KEY,
-        'Content-Type': 'application/json',
-        Prefer: 'return=representation'
-      },
-      body: JSON.stringify(payload)
-    });
-
-    if (res.ok || res.status === 201) {
-      // Show success
-      const dateObj = new Date(bkState.selectedDate + 'T12:00:00');
-      const formatted = dateObj.toLocaleDateString('es-MX', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
-      document.getElementById('successDetails').innerHTML = `
-        <div class="bk-summary-row"><span class="bk-summary-label">Nombre</span><span class="bk-summary-val">${payload.nombre} ${payload.apellido}</span></div>
-        <div class="bk-summary-row"><span class="bk-summary-label">Fecha</span><span class="bk-summary-val">${formatted.charAt(0).toUpperCase() + formatted.slice(1)}</span></div>
-        <div class="bk-summary-row"><span class="bk-summary-label">Hora</span><span class="bk-summary-val">${payload.hora} hrs</span></div>
-        <div class="bk-summary-row"><span class="bk-summary-label">Contacto</span><span class="bk-summary-val">${payload.telefono}</span></div>
-      `;
-      goStep('success');
-    } else {
-      alert('Hubo un error al guardar tu cita. Por favor intenta de nuevo o contáctanos por WhatsApp.');
-      btn.disabled = false;
-      btn.textContent = 'Confirmar cita ✓';
-    }
-  } catch(e) {
-    alert('Error de conexión. Por favor intenta de nuevo.');
-    btn.disabled = false;
-    btn.textContent = 'Confirmar cita ✓';
-  }
-}
 
 // Initialize cart UI
 updateCartUI();
