@@ -1,0 +1,1766 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brow Queen — Hyper-Realistic Brow Extensions</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:    #F5EFE6;
+  --bg2:   #EDE5D8;
+  --white: #FFFFFF;
+  --ink:   #1A1A1A;
+  --ink2:  #1A1A1A;
+  --mid:   #5A5A5A;
+  --light: #909090;
+  --gold:  #C9A24B;
+  --gold2: #A8842F;
+  --gold3: #E8C97A;
+  --ease:  cubic-bezier(.16,1,.3,1);
+  --shadow: 0 4px 24px rgba(0,0,0,.08);
+  --shadow-lg: 0 16px 56px rgba(0,0,0,.14);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--ink);font-family:'Montserrat',sans-serif;font-weight:400;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+
+/* ─── ANNOUNCE ─── */
+.ann{background:var(--ink2);padding:11px 0;overflow:hidden;}
+.ann-track{display:inline-flex;animation:ann-s 32s linear infinite;white-space:nowrap;}
+@keyframes ann-s{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.ann-item{padding:0 44px;font-size:.56rem;letter-spacing:.4em;text-transform:uppercase;color:rgba(255,255,255,.45);font-weight:600;display:flex;align-items:center;gap:44px;}
+
+.ann-item::after{content:'✦';color:var(--gold2);font-size:.34rem;opacity:.7;}
+
+/* ─── NAV ─── */
+nav {
+  background: var(--white);
+  position: sticky; top: 0; z-index: 600;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 22px 56px 18px;
+  box-shadow: 0 1px 0 rgba(0,0,0,.08), 0 4px 20px rgba(0,0,0,.05);
+}
+/* Logo row — perfectly centered */
+.n-logo {
+  display: flex; justify-content: center; align-items: center;
+  width: 100%; margin-bottom: 18px;
+}
+.n-logo img { height: 88px; object-fit: contain; display: block; }
+
+/* Divider */
+.n-divider {
+  width: 100%; height: 1px;
+  background: linear-gradient(to right, transparent, rgba(0,0,0,.08), transparent);
+  margin-bottom: 18px;
+}
+
+/* Bottom row — 3 equal columns: left spacer | links | buttons */
+.n-bottom {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 0;
+}
+.n-spacer { /* left empty column to balance right buttons */ }
+.n-links {
+  display: flex; justify-content: center; align-items: center; gap: 44px;
+}
+.n-links a {
+  font-size: .58rem; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--mid); text-decoration: none; font-weight: 600;
+  transition: color .2s; position: relative; padding-bottom: 4px;
+}
+.n-links a::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+  height: 1.5px; background: var(--gold);
+  transform: scaleX(0); transform-origin: center;
+  transition: transform .3s var(--ease);
+}
+.n-links a:hover { color: var(--ink); }
+.n-links a:hover::after { transform: scaleX(1); }
+.n-right {
+  display: flex; gap: 10px; align-items: center; justify-content: flex-end;
+}
+.n-btn {
+  padding: 9px 20px; font-size: .56rem; font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase;
+  text-decoration: none; border-radius: 999px; border: none;
+  cursor: pointer; font-family: 'Montserrat';
+  transition: all .22s var(--ease); display: inline-flex; align-items: center; gap: 6px;
+}
+.n-btn-outline { border: 1.5px solid rgba(0,0,0,.18); color: var(--mid); background: transparent; }
+.n-btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+.n-btn-fill { background: var(--ink); color: var(--white); }
+.n-btn-fill:hover { background: var(--gold); transform: translateY(-1px); box-shadow: 0 6px 18px rgba(201,162,75,.3); }
+.n-cart-btn {
+  background: none; border: 1.5px solid rgba(0,0,0,.18);
+  border-radius: 999px; padding: 8px 16px; cursor: pointer;
+  font-family: 'Montserrat'; font-size: .56rem; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--ink);
+  transition: all .22s var(--ease); display: flex; align-items: center; gap: 7px;
+}
+.n-cart-btn:hover { border-color: var(--gold); color: var(--gold); }
+.cart-count {
+  background: var(--gold); color: var(--white); border-radius: 999px;
+  font-size: .42rem; font-weight: 800; padding: 2px 7px;
+  min-width: 18px; text-align: center; line-height: 1.4;
+}
+
+/* ─── HERO ─── */
+.hero{position:relative;height:0;padding-top:56.25%;min-height:0;overflow:hidden;background:var(--ink2);}
+.hero img.hero-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;display:block;transition:transform 12s ease;}
+.hero:hover img.hero-photo{transform:scale(1.03);}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to right,rgba(10,10,10,.88) 0%,rgba(10,10,10,.65) 38%,rgba(10,10,10,.18) 62%,transparent 100%),linear-gradient(to top,rgba(10,10,10,.3) 0%,transparent 25%);}
+.hero-content{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:0 64px;max-width:600px;z-index:2;}
+.hero-tag{display:inline-flex;align-items:center;gap:10px;font-size:.56rem;letter-spacing:.5em;text-transform:uppercase;color:var(--gold2);font-weight:700;margin-bottom:22px;opacity:0;animation:rise .6s var(--ease) .15s forwards;}
+.hero-tag::before{content:'';width:28px;height:1.5px;background:var(--gold2);flex-shrink:0;}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.hero-h1{font-size:clamp(3.2rem,5.5vw,5.5rem);font-weight:900;line-height:1.08;letter-spacing:-.025em;color:#fff;margin-bottom:22px;opacity:0;animation:rise .85s var(--ease) .25s forwards;}
+.hero-h1 em{color:var(--gold2);font-style:italic;display:inline;}
+.hero-sub{font-size:.88rem;line-height:1.9;color:rgba(255,255,255,.55);max-width:380px;margin-bottom:36px;font-weight:400;opacity:0;animation:rise .85s var(--ease) .38s forwards;}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:0;opacity:0;animation:rise .85s var(--ease) .5s forwards;}
+.btn-gold{background:var(--gold);color:var(--white);padding:14px 40px;font-size:.6rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;border-radius:999px;display:inline-block;transition:all .22s var(--ease);box-shadow:0 8px 24px rgba(184,132,30,.38);}
+.btn-gold:hover{background:var(--gold2);transform:translateY(-2px);box-shadow:0 12px 32px rgba(184,132,30,.48);}
+.btn-ghost{border:1.5px solid rgba(255,255,255,.4);color:rgba(255,255,255,.85);padding:13px 36px;font-size:.6rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;border-radius:999px;display:inline-block;transition:all .22s var(--ease);}
+.btn-ghost:hover{border-color:#fff;color:#fff;transform:translateY(-2px);}
+.hero-stats{display:flex;gap:0;border-top:1px solid rgba(255,255,255,.12);padding-top:28px;opacity:0;animation:rise .85s var(--ease) .62s forwards;}
+.hstat{padding-right:32px;margin-right:32px;border-right:1px solid rgba(255,255,255,.12);}
+.hstat:last-child{border-right:none;padding-right:0;margin-right:0;}
+.hstat-n{font-size:1.8rem;font-weight:900;color:var(--gold2);line-height:1;display:block;margin-bottom:4px;letter-spacing:-.02em;}
+.hstat-l{font-size:.48rem;letter-spacing:.26em;text-transform:uppercase;color:rgba(255,255,255,.35);font-weight:600;}
+
+/* ─── MARQUEE ─── */
+.mq{overflow:hidden;padding:13px 0;background:var(--ink2);border-bottom:1px solid rgba(255,255,255,.06);}
+.mq-inner{display:flex;width:max-content;animation:mq-a 36s linear infinite;}
+@keyframes mq-a{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.mq-item{padding:0 40px;white-space:nowrap;font-size:.54rem;letter-spacing:.38em;text-transform:uppercase;color:rgba(255,255,255,.3);font-weight:600;display:flex;align-items:center;gap:40px;}
+.mq-item::after{content:'✦';color:var(--gold);font-size:.36rem;}
+
+/* ─── SECTION HELPERS ─── */
+.section-eyebrow{font-size:.54rem;letter-spacing:.46em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:14px;display:block;}
+.section-title{font-size:clamp(1.9rem,3.2vw,2.9rem);font-weight:900;letter-spacing:-.025em;line-height:1.1;color:var(--ink);}
+.section-title em{color:var(--gold);font-style:italic;}
+.section-body{font-size:.84rem;line-height:1.85;color:var(--mid);font-weight:400;}
+
+/* ─── SERVICES ─── */
+.sec-services{padding:96px 56px 88px;background:var(--ink);}
+.sec-services .head{text-align:center;margin-bottom:64px;} .sec-services .section-title{color:#fff;} .sec-services .section-eyebrow{color:var(--gold);}
+.sec-services .head .section-body{max-width:500px;margin:14px auto 0;color:rgba(255,255,255,.45);}
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1140px;margin:0 auto;}
+.srv-card{background:var(--white);border-radius:20px;overflow:hidden;box-shadow:var(--shadow);transition:transform .3s var(--ease),box-shadow .3s;position:relative;display:flex;flex-direction:column;}
+.srv-card:hover{transform:translateY(-7px);box-shadow:var(--shadow-lg);}
+.srv-card-img{height:200px;background:var(--bg2);position:relative;overflow:hidden;flex-shrink:0;}
+.srv-card-img img{width:100%;height:100%;object-fit:cover;display:block;filter:brightness(.75);transition:transform 1s var(--ease),filter .6s;}
+.srv-card:hover .srv-card-img img{transform:scale(1.05);filter:brightness(.85);}
+.srv-card-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.5) 0%,transparent 60%);}
+.srv-card-body{padding:24px 28px 28px;background:var(--white);flex:1;position:relative;}
+.srv-card-body::before{content:'';position:absolute;top:0;left:36px;right:36px;height:2px;background:linear-gradient(90deg,var(--gold),var(--gold2));transform:scaleX(0);transform-origin:left;transition:transform .4s var(--ease);}
+.srv-card:hover .srv-card-body::before{transform:scaleX(1);}
+.srv-num{font-size:4.5rem;font-weight:900;color:rgba(255,255,255,.06);line-height:1;margin-bottom:30px;letter-spacing:-.04em;display:block;}
+.srv-title{font-size:1.25rem;font-weight:800;margin-bottom:14px;letter-spacing:-.01em;color:var(--ink);}
+.srv-body{font-size:.76rem;line-height:1.95;color:var(--mid);margin-bottom:28px;font-weight:400;}
+.srv-link{font-size:.56rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:gap .28s var(--ease),color .2s;}
+.srv-link::after{content:'→';}
+.srv-card:hover .srv-link{gap:14px;color:var(--gold);}
+
+
+
+
+
+/* ─── SHOP ─── */
+.sec-shop{padding:96px 56px 80px;background:var(--bg);}
+.shop-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:48px;}
+.products-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;max-width:1400px;margin:0 auto;}
+
+.prod-card{background:var(--white);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--shadow);transition:transform .3s var(--ease),box-shadow .3s;cursor:pointer;}
+.prod-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg);}
+.prod-img-wrap{height:200px;background:var(--bg2);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.prod-img-wrap img{width:100%;height:100%;object-fit:cover;display:block;}
+.prod-num{font-size:3.8rem;font-weight:900;color:rgba(0,0,0,.07);letter-spacing:-.04em;line-height:1;}
+.prod-badge{position:absolute;top:10px;left:10px;background:var(--ink2);color:var(--white);font-size:.42rem;letter-spacing:.16em;text-transform:uppercase;padding:5px 11px;font-weight:700;border-radius:999px;}
+.prod-body{padding:18px 18px 20px;flex:1;display:flex;flex-direction:column;}
+.prod-cat{font-size:.44rem;letter-spacing:.36em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:6px;}
+.prod-name{font-size:.92rem;font-weight:800;line-height:1.28;margin-bottom:8px;letter-spacing:-.01em;color:var(--ink);}
+.prod-desc-short{font-size:.68rem;line-height:1.82;color:var(--mid);flex:1;margin-bottom:16px;font-weight:400;}
+.prod-footer{display:flex;align-items:center;justify-content:space-between;}
+.prod-price{font-size:.96rem;font-weight:900;color:var(--ink);}
+.prod-price span{font-size:.56rem;color:var(--mid);font-weight:500;margin-left:2px;}
+.prod-cta{background:var(--ink2);color:var(--white);padding:8px 15px;font-size:.48rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border:none;cursor:pointer;border-radius:999px;font-family:'Montserrat';transition:all .22s var(--ease);}
+.prod-cta:hover{background:var(--gold);transform:scale(1.05);box-shadow:0 4px 14px rgba(184,132,30,.3);}
+
+/* perks */
+.perks-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:20px;}
+.perk{background:var(--white);border-radius:14px;padding:18px;display:flex;gap:12px;align-items:flex-start;box-shadow:0 1px 8px rgba(0,0,0,.05);}
+.perk-ico{color:var(--gold);font-size:.9rem;flex-shrink:0;margin-top:2px;}
+.perk-t{font-size:.62rem;font-weight:700;color:var(--ink);margin-bottom:3px;}
+.perk-s{font-size:.58rem;color:var(--mid);line-height:1.5;font-weight:400;}
+
+/* ─── ACADEMY SHOP ─── */
+.sec-academy-shop {
+  background: var(--bg2);
+  padding: 96px 56px 88px;
+}
+.sec-academy-head {
+  text-align: center; margin-bottom: 52px;
+}
+#academyGrid {
+  grid-template-columns: repeat(3, 1fr) !important;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.cert-row {
+  display: flex; gap: 16px; justify-content: center;
+  flex-wrap: wrap; margin-top: 28px;
+}
+.cert-badge-inline {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--white);
+  border: 1px solid rgba(0,0,0,.08);
+  border-radius: 999px; padding: 12px 22px;
+  box-shadow: var(--shadow);
+  transition: all .22s var(--ease);
+}
+.cert-badge-inline:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+.cert-badge-inline .cert-star { font-size: .9rem; }
+.cert-badge-inline .cert-text { font-size: .58rem; font-weight: 700; color: var(--ink); }
+.cert-badge-inline .cert-text span { display: block; font-size: .5rem; color: var(--mid); font-weight: 400; margin-top: 1px; }
+/* keep old academy CSS for future use */
+/* ─── ACADEMY (hero version — for when photo is ready) ─── */
+.sec-academy{position:relative;min-height:600px;overflow:hidden;display:flex;align-items:center;background:var(--ink2);}
+.academy-bg{position:absolute;inset:0;background:linear-gradient(135deg,#1a1008 0%,#2d1e08 35%,#1a1a1a 100%);}
+.academy-bg img{width:100%;height:100%;object-fit:cover;object-position:center 25%;display:block;filter:brightness(.45) saturate(.8);}
+.academy-overlay{position:absolute;inset:0;background:linear-gradient(to right,rgba(10,8,4,.88) 0%,rgba(10,8,4,.62) 52%,rgba(10,8,4,.2) 100%),linear-gradient(to top,rgba(10,8,4,.5) 0%,transparent 35%);}
+.academy-content{position:relative;z-index:2;max-width:600px;padding:88px 80px;color:var(--white);}
+.academy-content .section-eyebrow{color:var(--gold2);}
+.academy-content .section-title{color:var(--white);margin-top:12px;margin-bottom:22px;}
+.academy-content .section-title em{color:var(--gold2);}
+.academy-body{font-size:.86rem;line-height:1.92;color:rgba(255,255,255,.48);margin-bottom:36px;font-weight:400;}
+.feat-list{display:flex;flex-direction:column;gap:16px;margin-bottom:38px;}
+.feat{display:flex;gap:14px;align-items:flex-start;}
+.feat-dot{width:6px;height:6px;background:var(--gold2);border-radius:50%;flex-shrink:0;margin-top:7px;box-shadow:0 0 8px rgba(212,160,64,.5);}
+.feat-text{font-size:.78rem;line-height:1.9;color:rgba(255,255,255,.45);font-weight:400;}
+.feat-text b{color:#fff;font-weight:700;}
+.cert-badge{display:inline-flex;align-items:center;gap:12px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:999px;padding:12px 24px;transition:all .22s var(--ease);cursor:default;}
+.cert-badge:hover{background:rgba(212,160,64,.15);border-color:rgba(212,160,64,.4);}
+.cert-star{color:var(--gold2);font-size:.95rem;}
+.cert-text{font-size:.58rem;font-weight:700;color:#fff;}
+.cert-text span{display:block;font-size:.5rem;color:rgba(255,255,255,.38);font-weight:400;margin-top:2px;}
+
+/* ─── CTA ─── */
+.sec-cta{background:var(--gold);padding:96px 56px;text-align:center;position:relative;overflow:hidden;}
+.sec-cta::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 15%,rgba(255,255,255,.22) 0%,transparent 58%);pointer-events:none;}
+.sec-cta .section-eyebrow{color:rgba(0,0,0,.38);margin-bottom:14px;}
+.sec-cta .section-title{color:var(--ink);max-width:600px;margin:0 auto 16px;position:relative;}
+.sec-cta .section-title em{color:var(--white);}
+.sec-cta .section-body{max-width:420px;margin:0 auto 52px;color:rgba(0,0,0,.5);position:relative;}
+.cta-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;position:relative;}
+.btn-cta-dark{background:var(--ink2);color:var(--white);padding:14px 44px;font-size:.6rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;border-radius:999px;display:inline-block;transition:all .22s var(--ease);box-shadow:0 6px 22px rgba(0,0,0,.22);}
+.btn-cta-dark:hover{background:var(--ink);transform:translateY(-2px);box-shadow:0 10px 30px rgba(0,0,0,.32);}
+.btn-cta-outline{border:2px solid rgba(0,0,0,.25);color:rgba(0,0,0,.62);padding:12px 40px;font-size:.6rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;border-radius:999px;display:inline-block;transition:all .22s var(--ease);}
+.btn-cta-outline:hover{border-color:var(--ink);color:var(--ink);transform:translateY(-2px);}
+
+/* ─── FOOTER ─── */
+footer{background:var(--ink);padding:72px 56px 40px;}
+.ft-top{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:52px;margin-bottom:56px;}
+.ft-brand .ft-logo img{height:72px;object-fit:contain;filter:brightness(0) invert(1);opacity:.75;margin-bottom:18px;display:block;}
+.ft-about{font-size:.72rem;line-height:2;color:rgba(255,255,255,.28);max-width:210px;margin-bottom:26px;font-weight:400;}
+.ft-soc{display:flex;gap:8px;}
+.ft-soc-btn{width:34px;height:34px;border-radius:999px;border:1px solid rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.28);font-size:.58rem;text-decoration:none;font-weight:700;transition:all .22s var(--ease);}
+.ft-soc-btn:hover{background:var(--gold);border-color:var(--gold);color:var(--ink);transform:translateY(-2px);}
+.ft-col h5{font-size:.5rem;letter-spacing:.4em;text-transform:uppercase;color:var(--gold2);font-weight:700;margin-bottom:20px;}
+.ft-col ul{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.ft-col a{color:rgba(255,255,255,.28);text-decoration:none;font-size:.72rem;font-weight:400;transition:color .2s;}
+.ft-col a:hover{color:rgba(255,255,255,.8);}
+.ft-bottom{border-top:1px solid rgba(255,255,255,.07);padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+.ft-copy{font-size:.58rem;color:rgba(255,255,255,.2);letter-spacing:.08em;}
+.ft-legal{display:flex;gap:24px;}
+.ft-legal a{font-size:.56rem;color:rgba(255,255,255,.2);text-decoration:none;transition:color .2s;}
+.ft-legal a:hover{color:var(--gold2);}
+
+/* ─── PRODUCT MODAL ─── */
+.modal-overlay{
+  position:fixed;inset:0;z-index:900;
+  background:rgba(10,10,10,.55);
+  backdrop-filter:blur(8px);
+  opacity:0;pointer-events:none;
+  transition:opacity .3s;
+  display:flex;align-items:center;justify-content:center;
+  padding:24px;
+}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal{
+  background:var(--white);
+  border-radius:24px;
+  max-width:760px;width:100%;
+  max-height:90vh;overflow-y:auto;
+  transform:translateY(24px) scale(.97);
+  transition:transform .35s var(--ease);
+  position:relative;
+}
+.modal-overlay.open .modal{transform:none;}
+.modal-grid{display:grid;grid-template-columns:1fr 1fr;}
+.modal-img{
+  background:var(--bg2);
+  border-radius:24px 0 0 24px;
+  min-height:380px;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+}
+.modal-img img{width:100%;height:100%;object-fit:cover;display:block;border-radius:24px 0 0 24px;}
+.modal-img-ph{font-size:.56rem;letter-spacing:.4em;text-transform:uppercase;color:rgba(0,0,0,.2);font-weight:700;}
+.modal-body{padding:44px 40px;display:flex;flex-direction:column;}
+.modal-cat{font-size:.48rem;letter-spacing:.38em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:10px;}
+.modal-name{font-size:1.5rem;font-weight:900;letter-spacing:-.02em;line-height:1.15;margin-bottom:8px;color:var(--ink);}
+.modal-price-row{display:flex;align-items:baseline;gap:8px;margin-bottom:20px;}
+.modal-price{font-size:1.6rem;font-weight:900;color:var(--ink);}
+.modal-price-note{font-size:.62rem;color:var(--mid);font-weight:500;}
+.modal-desc{font-size:.78rem;line-height:1.95;color:var(--mid);margin-bottom:24px;font-weight:400;flex:1;}
+.modal-features{margin-bottom:28px;}
+.modal-features h4{font-size:.52rem;letter-spacing:.3em;text-transform:uppercase;font-weight:700;color:var(--ink);margin-bottom:12px;}
+.modal-features ul{list-style:none;display:flex;flex-direction:column;gap:8px;}
+.modal-features li{font-size:.74rem;color:var(--mid);display:flex;gap:10px;align-items:flex-start;font-weight:400;}
+.modal-features li::before{content:'✓';color:var(--gold);font-weight:700;font-size:.7rem;flex-shrink:0;margin-top:1px;}
+.modal-shipping{background:var(--bg);border-radius:12px;padding:14px 16px;margin-bottom:24px;font-size:.68rem;color:var(--mid);display:flex;align-items:center;gap:10px;}
+.modal-shipping b{color:var(--ink);}
+.modal-actions{display:flex;gap:10px;} .btn-add-cart{border-radius:999px;}
+.btn-add-cart{background:var(--ink);color:var(--white);padding:14px 0;flex:1;font-size:.6rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;border:none;border-radius:999px;cursor:pointer;font-family:'Montserrat';transition:all .22s var(--ease);}
+.btn-add-cart:hover{background:var(--gold);transform:translateY(-1px);box-shadow:0 8px 22px rgba(184,132,30,.35);}
+.btn-wa{background:none;border:1.5px solid rgba(0,0,0,.18);color:var(--ink);padding:14px 20px;border-radius:999px;cursor:pointer;font-family:'Montserrat';font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;transition:all .22s var(--ease);}
+.btn-wa:hover{border-color:var(--gold);color:var(--gold);}
+.modal-close{position:absolute;top:16px;right:16px;background:rgba(0,0,0,.08);border:none;width:36px;height:36px;border-radius:999px;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--mid);transition:all .2s;z-index:2;}
+.modal-close:hover{background:rgba(0,0,0,.14);color:var(--ink);}
+
+/* ─── CART DRAWER ─── */
+.cart-drawer{
+  position:fixed;right:0;top:0;bottom:0;
+  width:420px;max-width:100vw;
+  background:var(--white);
+  z-index:950;
+  transform:translateX(100%);
+  transition:transform .38s var(--ease);
+  display:flex;flex-direction:column;
+  box-shadow:-8px 0 48px rgba(0,0,0,.14);
+}
+.cart-drawer.open{transform:translateX(0);}
+.cart-overlay{position:fixed;inset:0;z-index:940;background:rgba(10,10,10,.38);opacity:0;pointer-events:none;transition:opacity .3s;}
+.cart-overlay.open{opacity:1;pointer-events:all;}
+.cart-header{padding:24px 28px 20px;border-bottom:1px solid rgba(0,0,0,.08);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.cart-header h3{font-size:1rem;font-weight:800;letter-spacing:-.01em;}
+.cart-header-right{display:flex;align-items:center;gap:12px;}
+.cart-items-count{font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:var(--mid);font-weight:600;}
+.cart-close{background:rgba(0,0,0,.07);border:none;width:34px;height:34px;border-radius:999px;cursor:pointer;font-size:.9rem;color:var(--mid);display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.cart-close:hover{background:rgba(0,0,0,.13);color:var(--ink);}
+.cart-items{flex:1;overflow-y:auto;padding:20px 28px;}
+.cart-empty{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;color:var(--light);}
+.cart-empty-ico{font-size:2.5rem;opacity:.3;}
+.cart-empty p{font-size:.76rem;font-weight:600;letter-spacing:.04em;}
+.cart-item{display:flex;gap:14px;align-items:flex-start;padding:16px 0;border-bottom:1px solid rgba(0,0,0,.06);}
+.cart-item:last-child{border-bottom:none;}
+.cart-item-img{width:64px;height:64px;border-radius:12px;background:var(--bg2);flex-shrink:0;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.cart-item-img img{width:100%;height:100%;object-fit:cover;}
+.cart-item-img span{font-size:.44rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(0,0,0,.2);font-weight:700;text-align:center;padding:4px;}
+.cart-item-info{flex:1;}
+.cart-item-name{font-size:.82rem;font-weight:800;letter-spacing:-.01em;margin-bottom:4px;}
+.cart-item-price{font-size:.78rem;font-weight:700;color:var(--gold);}
+.cart-item-qty{display:flex;align-items:center;gap:10px;margin-top:10px;}
+.qty-btn{width:26px;height:26px;border-radius:999px;border:1.5px solid rgba(0,0,0,.16);background:none;cursor:pointer;font-size:.9rem;color:var(--ink);display:flex;align-items:center;justify-content:center;transition:all .2s;font-weight:700;}
+.qty-btn:hover{background:var(--ink);border-color:var(--ink);color:var(--white);}
+.qty-val{font-size:.82rem;font-weight:700;min-width:22px;text-align:center;}
+.cart-item-remove{background:none;border:none;cursor:pointer;color:var(--light);font-size:.78rem;padding:4px;transition:color .2s;}
+.cart-item-remove:hover{color:#e74c3c;}
+.cart-footer{padding:20px 28px 28px;border-top:1px solid rgba(0,0,0,.08);flex-shrink:0;}
+.cart-subtotal{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+.cart-subtotal-label{font-size:.68rem;font-weight:600;color:var(--mid);letter-spacing:.06em;text-transform:uppercase;}
+.cart-subtotal-val{font-size:1.1rem;font-weight:900;color:var(--ink);}
+.cart-shipping-note{font-size:.62rem;color:var(--mid);margin-bottom:18px;font-weight:400;}
+.cart-shipping-note b{color:var(--gold);font-weight:700;}
+.btn-checkout{width:100%;background:var(--ink);color:var(--white);padding:16px;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;border:none;border-radius:999px;cursor:pointer;font-family:'Montserrat';transition:all .22s var(--ease);margin-bottom:10px;}
+.btn-checkout:hover{background:var(--gold);transform:translateY(-1px);box-shadow:0 8px 22px rgba(184,132,30,.35);}
+.btn-checkout:disabled{opacity:.4;cursor:not-allowed;transform:none;}
+.cart-wa-note{text-align:center;font-size:.6rem;color:var(--light);font-weight:400;}
+
+/* ─── REVEAL ─── */
+.rv{opacity:0;transform:translateY(20px);transition:opacity .85s var(--ease),transform .85s var(--ease);}
+.rv.in{opacity:1;transform:none;}
+.d1{transition-delay:.07s}.d2{transition-delay:.14s}.d3{transition-delay:.22s}.d4{transition-delay:.30s}
+
+/* ─── RESPONSIVE TABLET ─── */
+@media(max-width:1100px){
+  /* nav */
+  nav { padding: 16px 24px 14px; }
+  .n-logo img { height: 72px; }
+  .n-links { display: none; }
+  .n-btn-outline { display: none; }
+  /* hero */
+  .hero { height: 480px; }
+  .hero-content { padding: 0 28px; }
+  .hero-h1 { font-size: 2.8rem; }
+  .hero-sub { font-size: .82rem; max-width: 100%; }
+  /* sections */
+  .sec-services,.sec-shop,.sec-cta { padding: 64px 24px; }
+  .sec-academy-shop { padding: 64px 24px 72px; }
+  .services-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
+  /* stats */
+  .stats-band { padding: 48px 24px; }
+  .stats-inner { grid-template-columns: repeat(3,1fr); }
+  /* shop */
+  .shop-header { flex-direction: column; gap: 16px; align-items: flex-start; }
+  .products-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
+  .products-grid-row2 .prod-card { width: calc(50% - 7px); max-width: calc(50% - 7px); }
+  #academyGrid { grid-template-columns: 1fr 1fr !important; }
+  .perks-row { grid-template-columns: 1fr 1fr; }
+  /* academy */
+  .sec-academy { min-height: 480px; }
+  .academy-content { padding: 56px 24px; }
+  /* modal */
+  .modal-grid { grid-template-columns: 1fr; }
+  .modal-img { border-radius: 24px 24px 0 0; min-height: 220px; }
+  .modal-img img { border-radius: 24px 24px 0 0; }
+  .modal-body { padding: 28px 24px 32px; }
+  .cart-drawer { width: 100vw; }
+  /* footer */
+  .ft-top { grid-template-columns: 1fr 1fr; gap: 32px; }
+  footer { padding: 56px 24px 36px; }
+  .ft-bottom { flex-direction: column; text-align: center; }
+  /* booking */
+  .bk-header { padding: 28px 24px 20px; }
+  .bk-body { padding: 20px 24px 28px; }
+  .bk-row { grid-template-columns: 1fr; }
+  .bk-slots { grid-template-columns: repeat(3,1fr); }
+}
+
+/* ─── RESPONSIVE MOBILE ─── */
+@media(max-width:640px){
+  /* announce */
+  .ann-item { padding: 0 28px; font-size: .5rem; gap: 28px; }
+
+  /* nav */
+  nav { padding: 14px 20px 12px; }
+  .n-logo img { height: 60px; }
+  .n-right { gap: 8px; }
+  .n-cart-btn { padding: 7px 12px; font-size: .5rem; }
+  .n-btn-fill { padding: 8px 16px; font-size: .5rem; }
+
+  /* hero */
+  .hero { height: 380px; min-height: 340px; }
+  .hero-content { padding: 0 20px; max-width: 100%; }
+  .hero-h1 { font-size: 2.1rem; }
+  .hero-tag { font-size: .48rem; letter-spacing: .3em; margin-bottom: 14px; }
+  .hero-h1 { font-size: 2.2rem; line-height: 1.0; margin-bottom: 14px; }
+  .hero-sub { font-size: .76rem; margin-bottom: 28px; display: none; }
+  .hero-btns { gap: 10px; }
+  .btn-gold { padding: 12px 28px; font-size: .56rem; }
+  .btn-ghost { padding: 11px 24px; font-size: .56rem; }
+
+  /* marquee */
+  .mq-item { padding: 0 28px; font-size: .48rem; gap: 28px; }
+
+  /* services */
+  .sec-services { padding: 52px 20px 48px; }
+  .services-grid { grid-template-columns: 1fr; gap: 14px; }
+  .srv-card { padding: 36px 28px 32px; }
+  .srv-num { font-size: 3.5rem; margin-bottom: 20px; }
+  .srv-title { font-size: 1.1rem; }
+
+  /* stats */
+  .stats-band { padding: 40px 20px; }
+  .stats-inner { grid-template-columns: 1fr; }
+  .stat-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,.1); padding: 22px 0; }
+  .stat-item:last-child { border-bottom: none; }
+  .stat-n { font-size: 2.8rem; }
+
+  /* shop */
+  .sec-shop { padding: 52px 20px 48px; }
+  .shop-header { margin-bottom: 32px; }
+  .section-title { font-size: 1.8rem; }
+  .products-grid { grid-template-columns: 1fr; gap: 14px; max-width: 100%; }
+  .products-grid-row2 { flex-direction: column; align-items: stretch; }
+  .products-grid-row2 .prod-card { width: 100%; max-width: 100%; }
+  .prod-img-wrap { height: 180px; }
+  .perks-row { grid-template-columns: 1fr; gap: 10px; }
+
+  /* academy */
+  .sec-academy-shop { padding: 52px 20px 56px; }
+  #academyGrid { grid-template-columns: 1fr !important; }
+  .cert-row { flex-direction: column; align-items: center; gap: 10px; }
+
+  /* academy hero */
+  .sec-academy { min-height: 420px; }
+  .academy-content { padding: 44px 20px; }
+  .academy-content .section-title { font-size: 1.7rem; }
+  .academy-body { font-size: .78rem; }
+
+  /* cta */
+  .sec-cta { padding: 60px 20px; }
+  .sec-cta .section-title { font-size: 1.8rem; }
+  .btn-cta-dark { padding: 14px 36px; font-size: .58rem; }
+
+  /* footer */
+  footer { padding: 48px 20px 32px; }
+  .ft-top { grid-template-columns: 1fr; gap: 36px; }
+  .ft-brand .ft-logo img { height: 56px; }
+  .ft-about { max-width: 100%; }
+  .ft-bottom { flex-direction: column; gap: 16px; text-align: center; }
+  .ft-legal { flex-wrap: wrap; justify-content: center; gap: 16px; }
+
+  /* modals */
+  .modal-body { padding: 24px 20px 28px; }
+  .modal-name { font-size: 1.2rem; }
+  .modal-price { font-size: 1.3rem; }
+  .bk-header { padding: 24px 20px 18px; }
+  .bk-body { padding: 18px 20px 24px; }
+  .bk-header h3 { font-size: 1.2rem; }
+  .bk-slots { grid-template-columns: repeat(2,1fr); gap: 8px; }
+  .bk-row { grid-template-columns: 1fr; }
+  .bk-cal-day { font-size: .66rem; }
+
+  /* cart */
+  .cart-drawer { width: 100vw; }
+  .cart-header { padding: 20px 20px 16px; }
+  .cart-items { padding: 16px 20px; }
+  .cart-footer { padding: 16px 20px 24px; }
+
+  /* floating */
+  .float-socials { bottom: 20px; right: 20px; }
+  .float-btn { width: 46px; height: 46px; }
+  .float-btn svg { width: 20px; height: 20px; }
+}
+
+/* ─── BOOKING MODAL ─── */
+.booking-overlay {
+  position: fixed; inset: 0; z-index: 1000;
+  background: rgba(26,26,26,.55);
+  backdrop-filter: blur(10px);
+  opacity: 0; pointer-events: none;
+  transition: opacity .3s;
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+}
+.booking-overlay.open { opacity: 1; pointer-events: all; }
+.booking-modal {
+  background: var(--white);
+  border-radius: 24px;
+  width: 100%; max-width: 680px;
+  max-height: 92vh; overflow-y: auto;
+  transform: translateY(20px) scale(.97);
+  transition: transform .35s var(--ease);
+  position: relative;
+}
+.booking-overlay.open .booking-modal { transform: none; }
+.bk-close {
+  position: absolute; top: 16px; right: 16px;
+  background: rgba(0,0,0,.07); border: none;
+  width: 36px; height: 36px; border-radius: 999px;
+  font-size: 1rem; cursor: pointer; color: var(--mid);
+  display: flex; align-items: center; justify-content: center;
+  transition: all .2s; z-index: 2;
+}
+.bk-close:hover { background: rgba(0,0,0,.14); color: var(--ink); }
+.bk-header {
+  padding: 36px 40px 24px;
+  border-bottom: 1px solid rgba(0,0,0,.07);
+}
+.bk-header .section-eyebrow { margin-bottom: 6px; }
+.bk-header h3 {
+  font-size: 1.5rem; font-weight: 900;
+  letter-spacing: -.02em; color: var(--ink);
+}
+.bk-header p { font-size: .76rem; color: var(--mid); margin-top: 6px; font-weight: 400; }
+.bk-body { padding: 28px 40px 36px; }
+
+/* Steps */
+.bk-steps {
+  display: flex; gap: 0; margin-bottom: 32px;
+}
+.bk-step {
+  flex: 1; text-align: center; position: relative;
+}
+.bk-step::after {
+  content: ''; position: absolute; top: 14px; left: 50%; right: -50%;
+  height: 2px; background: var(--bg2);
+  z-index: 0;
+}
+.bk-step:last-child::after { display: none; }
+.bk-step-dot {
+  width: 28px; height: 28px; border-radius: 999px;
+  border: 2px solid var(--bg2); background: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  font-size: .58rem; font-weight: 800; color: var(--light);
+  margin: 0 auto 8px; position: relative; z-index: 1;
+  transition: all .3s;
+}
+.bk-step.active .bk-step-dot {
+  border-color: var(--gold); background: var(--gold); color: var(--white);
+}
+.bk-step.done .bk-step-dot {
+  border-color: var(--gold); background: var(--gold); color: var(--white);
+}
+.bk-step.done .bk-step-dot::after { content: '✓'; }
+.bk-step-label {
+  font-size: .5rem; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--light); font-weight: 700; transition: color .3s;
+}
+.bk-step.active .bk-step-label { color: var(--gold); }
+.bk-step.done .bk-step-label { color: var(--gold2); }
+
+/* Step panels */
+.bk-panel { display: none; }
+.bk-panel.active { display: block; }
+
+/* Step 1 — calendar */
+.bk-cal-label {
+  font-size: .56rem; letter-spacing: .3em; text-transform: uppercase;
+  font-weight: 700; color: var(--mid); margin-bottom: 16px;
+}
+.bk-cal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px;
+}
+.bk-cal-month {
+  font-size: .88rem; font-weight: 800; color: var(--ink);
+  letter-spacing: -.01em;
+}
+.bk-cal-nav {
+  background: none; border: 1.5px solid rgba(0,0,0,.14);
+  border-radius: 999px; width: 32px; height: 32px; cursor: pointer;
+  font-size: .8rem; color: var(--ink);
+  display: flex; align-items: center; justify-content: center;
+  transition: all .2s;
+}
+.bk-cal-nav:hover { border-color: var(--gold); color: var(--gold); }
+.bk-cal-grid {
+  display: grid; grid-template-columns: repeat(7,1fr); gap: 4px;
+}
+.bk-cal-dow {
+  text-align: center; font-size: .48rem; letter-spacing: .18em;
+  text-transform: uppercase; font-weight: 700; color: var(--light);
+  padding: 6px 0;
+}
+.bk-cal-day {
+  aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+  border-radius: 999px; font-size: .72rem; font-weight: 600;
+  cursor: pointer; transition: all .2s; border: 1.5px solid transparent;
+  color: var(--ink);
+}
+.bk-cal-day:hover:not(.empty):not(.past) { border-color: var(--gold); color: var(--gold); }
+.bk-cal-day.selected { background: var(--gold); color: var(--white) !important; border-color: var(--gold); }
+.bk-cal-day.today { font-weight: 900; color: var(--gold); }
+.bk-cal-day.past { color: var(--light); opacity: .4; cursor: not-allowed; }
+.bk-cal-day.empty { cursor: default; }
+
+/* Step 2 — time slots */
+.bk-slots {
+  display: grid; grid-template-columns: repeat(4,1fr); gap: 10px;
+  margin-top: 8px;
+}
+.bk-slot {
+  border: 1.5px solid rgba(0,0,0,.12); border-radius: 12px;
+  padding: 12px 8px; text-align: center;
+  font-size: .66rem; font-weight: 700; cursor: pointer;
+  transition: all .22s var(--ease); color: var(--ink);
+  background: var(--white);
+}
+.bk-slot:hover { border-color: var(--gold); color: var(--gold); }
+.bk-slot.selected { background: var(--gold); border-color: var(--gold); color: var(--white); }
+.bk-slot.unavailable { opacity: .35; cursor: not-allowed; background: var(--bg2); }
+.bk-selected-date {
+  background: var(--bg); border-radius: 14px; padding: 14px 18px;
+  font-size: .76rem; font-weight: 600; color: var(--ink);
+  margin-bottom: 20px; display: flex; align-items: center; gap: 10px;
+}
+.bk-selected-date span { color: var(--gold); font-weight: 800; }
+
+/* Step 3 — form */
+.bk-form { display: flex; flex-direction: column; gap: 16px; }
+.bk-field label {
+  display: block; font-size: .52rem; letter-spacing: .22em;
+  text-transform: uppercase; font-weight: 700; color: var(--mid);
+  margin-bottom: 7px;
+}
+.bk-field input, .bk-field select, .bk-field textarea {
+  width: 100%; padding: 13px 16px;
+  border: 1.5px solid rgba(0,0,0,.14); border-radius: 12px;
+  font-family: 'Montserrat'; font-size: .82rem; font-weight: 500;
+  color: var(--ink); background: var(--white);
+  transition: border-color .2s, box-shadow .2s; outline: none;
+}
+.bk-field input:focus, .bk-field select:focus, .bk-field textarea:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(201,162,75,.15);
+}
+.bk-field textarea { resize: none; height: 80px; }
+.bk-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.bk-summary {
+  background: var(--bg); border-radius: 16px; padding: 18px 20px;
+  margin-bottom: 4px;
+}
+.bk-summary-row {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: .74rem; padding: 5px 0;
+}
+.bk-summary-row:not(:last-child) { border-bottom: 1px solid rgba(0,0,0,.06); }
+.bk-summary-label { color: var(--mid); font-weight: 500; }
+.bk-summary-val { font-weight: 700; color: var(--ink); }
+
+/* Navigation buttons */
+.bk-nav {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 28px; gap: 12px;
+}
+.bk-btn-back {
+  background: none; border: 1.5px solid rgba(0,0,0,.14);
+  border-radius: 999px; padding: 12px 28px;
+  font-family: 'Montserrat'; font-size: .6rem; font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase;
+  cursor: pointer; color: var(--mid); transition: all .22s;
+}
+.bk-btn-back:hover { border-color: var(--ink); color: var(--ink); }
+.bk-btn-next {
+  background: var(--ink); color: var(--white);
+  border: none; border-radius: 999px; padding: 13px 40px;
+  font-family: 'Montserrat'; font-size: .6rem; font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase;
+  cursor: pointer; transition: all .22s var(--ease); flex: 1;
+}
+.bk-btn-next:hover { background: var(--gold); transform: translateY(-1px); box-shadow: 0 8px 22px rgba(201,162,75,.35); }
+.bk-btn-next:disabled { opacity: .4; cursor: not-allowed; transform: none; box-shadow: none; }
+
+/* Success state */
+.bk-success {
+  text-align: center; padding: 48px 40px;
+}
+.bk-success-ico {
+  width: 72px; height: 72px; border-radius: 999px;
+  background: rgba(201,162,75,.12); border: 2px solid var(--gold);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2rem; margin: 0 auto 24px;
+}
+.bk-success h3 { font-size: 1.4rem; font-weight: 900; margin-bottom: 12px; }
+.bk-success p { font-size: .82rem; color: var(--mid); line-height: 1.85; font-weight: 400; }
+.bk-success-details {
+  background: var(--bg); border-radius: 16px; padding: 18px 20px;
+  margin: 24px 0; text-align: left;
+}
+
+/* ─── FLOATING SOCIALS ─── */
+.float-socials {
+  position: fixed;
+  bottom: 28px; right: 28px;
+  z-index: 800;
+  display: flex; flex-direction: column; gap: 12px;
+  align-items: center;
+}
+.float-btn {
+  width: 52px; height: 52px; border-radius: 999px;
+  display: flex; align-items: center; justify-content: center;
+  text-decoration: none;
+  transition: transform .25s var(--ease), box-shadow .25s;
+  box-shadow: 0 4px 16px rgba(0,0,0,.18);
+}
+.float-btn:hover { transform: translateY(-3px) scale(1.06); box-shadow: 0 8px 24px rgba(0,0,0,.22); }
+.float-btn svg { width: 24px; height: 24px; fill: #fff; }
+.float-wa  { background: #25D366; }
+.float-ig  { background: radial-gradient(circle at 30% 110%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%); }
+
+/* ─── COLOR DOTS ─── */
+.color-dots {
+  display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap;
+}
+.color-dot {
+  width: 22px; height: 22px; border-radius: 999px;
+  border: 2px solid transparent;
+  cursor: pointer; background-size: cover; background-position: center;
+  transition: all .2s; outline: none;
+  box-shadow: 0 1px 4px rgba(0,0,0,.15);
+}
+.color-dot:hover { transform: scale(1.15); }
+.color-dot.active { border-color: var(--gold); box-shadow: 0 0 0 2px var(--gold); }
+
+/* ─── MODAL COLOR SELECTOR ─── */
+.modal-colors {
+  display: flex; gap: 10px; flex-wrap: wrap;
+}
+.modal-color-btn {
+  width: 52px; height: 52px; border-radius: 12px;
+  border: 2px solid transparent;
+  background-size: cover; background-position: center;
+  cursor: pointer; position: relative; overflow: hidden;
+  transition: all .2s var(--ease);
+}
+.modal-color-btn span {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: rgba(0,0,0,.55);
+  font-size: .38rem; font-weight: 700; letter-spacing: .06em;
+  color: #fff; text-align: center; padding: 3px 2px;
+  text-transform: uppercase;
+}
+.modal-color-btn:hover { transform: scale(1.08); }
+.modal-color-btn.active { border-color: var(--gold); box-shadow: 0 0 0 2px var(--gold); }
+</style>
+</head>
+<body>
+
+<!-- BOOKING MODAL -->
+<div class="booking-overlay" id="bookingOverlay">
+  <div class="booking-modal" id="bookingModal">
+    <button class="bk-close" onclick="closeBooking()">✕</button>
+
+    <div class="bk-header">
+      <div class="section-eyebrow">Brow Queen</div>
+      <h3>Reserva tu cita</h3>
+      <p>Extensiones de cejas Hyper-Realistic · Sesión individual</p>
+    </div>
+
+    <div class="bk-body">
+      <!-- Steps indicator -->
+      <div class="bk-steps">
+        <div class="bk-step active" id="step-ind-1">
+          <div class="bk-step-dot">1</div>
+          <div class="bk-step-label">Fecha</div>
+        </div>
+        <div class="bk-step" id="step-ind-2">
+          <div class="bk-step-dot">2</div>
+          <div class="bk-step-label">Horario</div>
+        </div>
+        <div class="bk-step" id="step-ind-3">
+          <div class="bk-step-dot">3</div>
+          <div class="bk-step-label">Tus datos</div>
+        </div>
+      </div>
+
+      <!-- Step 1: Calendar -->
+      <div class="bk-panel active" id="bk-panel-1">
+        <div class="bk-cal-label">Selecciona una fecha</div>
+        <div class="bk-cal-header">
+          <button class="bk-cal-nav" onclick="calPrev()">‹</button>
+          <div class="bk-cal-month" id="calMonth"></div>
+          <button class="bk-cal-nav" onclick="calNext()">›</button>
+        </div>
+        <div class="bk-cal-grid" id="calGrid"></div>
+        <div class="bk-nav">
+          <span></span>
+          <button class="bk-btn-next" id="btn-to-2" onclick="goStep(2)" disabled>Continuar →</button>
+        </div>
+      </div>
+
+      <!-- Step 2: Time slots -->
+      <div class="bk-panel" id="bk-panel-2">
+        <div class="bk-selected-date" id="selectedDateLabel">📅 <span id="selectedDateText"></span></div>
+        <div class="bk-cal-label">Selecciona un horario</div>
+        <div class="bk-slots" id="slotsGrid"></div>
+        <div class="bk-nav">
+          <button class="bk-btn-back" onclick="goStep(1)">← Volver</button>
+          <button class="bk-btn-next" id="btn-to-3" onclick="goStep(3)" disabled>Continuar →</button>
+        </div>
+      </div>
+
+      <!-- Step 3: Form -->
+      <div class="bk-panel" id="bk-panel-3">
+        <div class="bk-summary" id="bkSummary"></div>
+        <div class="bk-form">
+          <div class="bk-row">
+            <div class="bk-field">
+              <label>Nombre</label>
+              <input type="text" id="bkNombre" placeholder="Tu nombre" oninput="checkForm()">
+            </div>
+            <div class="bk-field">
+              <label>Apellido</label>
+              <input type="text" id="bkApellido" placeholder="Tu apellido" oninput="checkForm()">
+            </div>
+          </div>
+          <div class="bk-row">
+            <div class="bk-field">
+              <label>Teléfono</label>
+              <input type="tel" id="bkTel" placeholder="+52 55 1234 5678" oninput="checkForm()">
+            </div>
+            <div class="bk-field">
+              <label>Email</label>
+              <input type="email" id="bkEmail" placeholder="tu@email.com" oninput="checkForm()">
+            </div>
+          </div>
+          <div class="bk-field">
+            <label>¿Es tu primera vez? (opcional)</label>
+            <select id="bkPrimera">
+              <option value="">Selecciona...</option>
+              <option value="si">Sí, es mi primera vez</option>
+              <option value="no">No, ya he tenido extensiones antes</option>
+            </select>
+          </div>
+          <div class="bk-field">
+            <label>Notas adicionales (opcional)</label>
+            <textarea id="bkNotas" placeholder="Alergias, preferencias, preguntas..."></textarea>
+          </div>
+        </div>
+        <div class="bk-nav">
+          <button class="bk-btn-back" onclick="goStep(2)">← Volver</button>
+          <button class="bk-btn-next" id="btn-confirmar" onclick="confirmarCita()" disabled>Confirmar cita ✓</button>
+        </div>
+      </div>
+
+      <!-- Success -->
+      <div class="bk-panel" id="bk-panel-success">
+        <div class="bk-success">
+          <div class="bk-success-ico" style="color:var(--gold);font-size:2rem;">✦</div>
+          <h3>¡Cita reservada!</h3>
+          <p>Tu cita ha sido registrada exitosamente. Te contactaremos por WhatsApp para confirmar los detalles.</p>
+          <div class="bk-success-details" id="successDetails"></div>
+          <button class="bk-btn-next" style="margin-top:8px" onclick="closeBooking()">Listo</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCT MODAL -->
+<div class="modal-overlay" id="productModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-grid">
+      <div class="modal-img" id="modalImg">
+        <span class="modal-img-ph">Foto próximamente</span>
+      </div>
+      <div class="modal-body">
+        <div class="modal-cat" id="modalCat"></div>
+        <h2 class="modal-name" id="modalName"></h2>
+        <div class="modal-price-row">
+          <span class="modal-price" id="modalPrice"></span>
+          <span class="modal-price-note">MXN · IVA incluido</span>
+        </div>
+        <p class="modal-desc" id="modalDesc"></p>
+        <div class="modal-features" id="modalFeatures"></div>
+        <div class="modal-shipping">
+          <span>🚚</span>
+          <div><b>Envío gratis</b> en pedidos mayores a $999 MXN · Entrega 3-5 días hábiles en México</div>
+        </div>
+        <div class="modal-actions" style="display:block;">
+          <button class="btn-add-cart" id="modalAddBtn" style="width:100%;border-radius:999px;">Agregar al carrito</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CART OVERLAY -->
+<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+
+<!-- CART DRAWER -->
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-header">
+    <h3>Tu carrito</h3>
+    <div class="cart-header-right">
+      <span class="cart-items-count" id="cartItemsCount">0 productos</span>
+      <button class="cart-close" onclick="closeCart()">✕</button>
+    </div>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty">
+      <div class="cart-empty-ico" style="font-size:2rem;opacity:.2;font-family:serif;">✦</div>
+      <p>Tu carrito está vacío</p>
+    </div>
+  </div>
+  <div class="cart-footer">
+    <div class="cart-subtotal">
+      <span class="cart-subtotal-label">Subtotal</span>
+      <span class="cart-subtotal-val" id="cartTotal">$0</span>
+    </div>
+    <p class="cart-shipping-note" id="cartShippingNote">Agrega <b id="shippingLeft"></b> más para envío gratis</p>
+    <button class="btn-checkout" id="checkoutBtn" disabled>Ir a pagar · Stripe próximamente</button>
+    <p class="cart-wa-note">¿Prefieres pedir por WhatsApp? <a href="https://wa.me/521234567890" target="_blank" style="color:var(--gold);font-weight:700;">Escríbenos</a></p>
+  </div>
+</div>
+
+<!-- ANNOUNCE -->
+<div class="ann">
+  <div class="ann-track">
+    <span class="ann-item">Envío gratis desde $999 MXN</span>
+    <span class="ann-item">100% Cabello Humano Real</span>
+    <span class="ann-item">Duración hasta 2 meses</span>
+    <span class="ann-item">Certificado Internacional</span>
+    <span class="ann-item">Hyper-Realistic Brow Extensions</span>
+    <span class="ann-item">Envío gratis desde $999 MXN</span>
+    <span class="ann-item">100% Cabello Humano Real</span>
+    <span class="ann-item">Duración hasta 2 meses</span>
+    <span class="ann-item">Certificado Internacional</span>
+    <span class="ann-item">Hyper-Realistic Brow Extensions</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="n-logo">
+    <img src="https://ltveorvqvvlyivjwxjlc.supabase.co/storage/v1/object/public/brownqueen/brownqueenlogo.png?v=2" alt="Brow Queen">
+  </div>
+  <div class="n-divider"></div>
+  <div class="n-bottom">
+    <div class="n-spacer"></div>
+    <div class="n-links">
+      <a href="#servicios">Servicios</a>
+      <a href="#tienda">Tienda</a>
+      <a href="#academia">Academia</a>
+      <a href="#contacto">Contacto</a>
+    </div>
+    <div class="n-right">
+      <button class="n-cart-btn" onclick="openCart()">
+        Carrito &nbsp;<span class="cart-count" id="navCartCount">0</span>
+      </button>
+      <a href="#" onclick="event.preventDefault();openBooking()" class="n-btn n-btn-fill">Reservar cita</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero" id="inicio">
+  <img class="hero-photo" src="https://ltveorvqvvlyivjwxjlc.supabase.co/storage/v1/object/public/brownqueen/1.jpg?v=4" alt="Brow Queen">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Hyper-Realistic Brow Extensions</div>
+    <h1 class="hero-h1">La ceja<br><em>perfecta</em><br>existe.</h1>
+    <p class="hero-sub">Extensiones pelo a pelo con 100% cabello humano real. Diseño completamente personalizado para tu rostro. Resultados naturales hasta 2 meses.</p>
+    <div class="hero-btns">
+      <a href="#" onclick="event.preventDefault();openBooking()" class="btn-gold">Reserva tu cita</a>
+      <a href="#tienda" class="btn-ghost">Ver productos</a>
+    </div>
+
+  </div>
+</div>
+
+<!-- MARQUEE -->
+<div class="mq">
+  <div class="mq-inner">
+    <span class="mq-item">Brow Extensions</span><span class="mq-item">100% Cabello Humano</span>
+    <span class="mq-item">Hyper-Realistic</span><span class="mq-item">Certificado Internacional</span>
+    <span class="mq-item">Envíos México</span><span class="mq-item">Academia BQ</span>
+    <span class="mq-item">Brow Extensions</span><span class="mq-item">100% Cabello Humano</span>
+    <span class="mq-item">Hyper-Realistic</span><span class="mq-item">Certificado Internacional</span>
+    <span class="mq-item">Envíos México</span><span class="mq-item">Academia BQ</span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="sec-services" id="servicios">
+  <div class="head">
+    <span class="section-eyebrow rv">El universo Brow Queen</span>
+    <h2 class="section-title rv d1">Tres formas de vivir<br>tus cejas <em>perfectas</em></h2>
+    <p class="section-body rv d2">Un ecosistema completo pensado para la mujer que no transa con su imagen.</p>
+  </div>
+  <div class="services-grid">
+    <div class="srv-card rv">
+      <div class="srv-card-img"><img src="https://ltveorvqvvlyivjwxjlc.supabase.co/storage/v1/object/public/brownqueen/serviciodecejas.jpg" alt="Servicio de Cejas"></div>
+      <div class="srv-card-body">
+        <h3 class="srv-title">Servicio de Cejas</h3>
+        <p class="srv-body">Extensiones pelo a pelo aplicadas por especialistas certificadas. Diseño personalizado según tu morfología, tono de piel y estilo. Una transformación completa en una sola sesión.</p>
+        <a href="#" onclick="event.preventDefault();openBooking()" class="srv-link">Agendar cita</a>
+      </div>
+    </div>
+    <div class="srv-card rv d1">
+      <div class="srv-card-img"><img src="https://ltveorvqvvlyivjwxjlc.supabase.co/storage/v1/object/public/brownqueen/tiendaprofesional.jpg" alt="Tienda Profesional"></div>
+      <div class="srv-card-body">
+        <h3 class="srv-title">Tienda Profesional</h3>
+        <p class="srv-body">Extensiones en múltiples tonos, adhesivo, tijeras de precisión, pinzas y removedor. Línea completa Brow Queen con envíos a todo México.</p>
+        <a href="#tienda" class="srv-link">Ver productos</a>
+      </div>
+    </div>
+    <div class="srv-card rv d2">
+      <div class="srv-card-img"><img src="https://ltveorvqvvlyivjwxjlc.supabase.co/storage/v1/object/public/brownqueen/academia.jpg" alt="Academia BQ"></div>
+      <div class="srv-card-body">
+        <h3 class="srv-title">Academia BQ</h3>
+        <p class="srv-body">Curso online, e-book y workshops presenciales con Certificado Internacional reconocido. De cero a profesional certificada con el respaldo real de Brow Queen.</p>
+        <a href="#academia" class="srv-link">Ver cursos</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <div class="g-item"><div class="g-item-ph"></div><div class="g-label"></div></div>
+  <div class="g-item"><div class="g-item-ph"></div><div class="g-label"></div></div>
+</div>
+
+
+</div>
+
+<!-- SHOP -->
+<section class="sec-shop" id="tienda">
+  <div class="shop-header">
+    <div>
+      <span class="section-eyebrow rv">Tienda oficial</span>
+      <h2 class="section-title rv d1">Productos <em>Brow Queen</em></h2>
+    </div>
+    <button class="n-btn n-btn-fill rv" onclick="openCart()">Ver carrito 🛍</button>
+  </div>
+  <div class="products-grid" id="productsGrid"></div>
+  <div class="perks-row">
+    <div class="perk"><div class="perk-ico">✦</div><div><div class="perk-t">Envío gratis</div><div class="perk-s">En pedidos desde $999 MXN</div></div></div>
+    <div class="perk"><div class="perk-ico">✦</div><div><div class="perk-t">100% Originales</div><div class="perk-s">Línea exclusiva Brow Queen</div></div></div>
+    <div class="perk"><div class="perk-ico">✦</div><div><div class="perk-t">Envíos en México</div><div class="perk-s">3-5 días hábiles</div></div></div>
+    <div class="perk"><div class="perk-ico">✦</div><div><div class="perk-t">Atención directa</div><div class="perk-s">Respuesta en menos de 2h</div></div></div>
+  </div>
+</section>
+
+<!-- ACADEMY -->
+<section class="sec-academy-shop" id="academia">
+  <div class="sec-academy-bg">
+    <div class="sec-academy-head">
+      <span class="section-eyebrow rv">Academia Brow Queen</span>
+      <h2 class="section-title rv d1">Conviértete en<br><em>certificada</em></h2>
+      <p class="section-body rv d2" style="max-width:520px;margin:14px auto 0;">Compra tu curso, e-book o reserva tu workshop directamente. Certificado Internacional incluido.</p>
+    </div>
+    <div class="products-grid rv d3" id="academyGrid"></div>
+    <div class="cert-row rv d4">
+      <div class="cert-badge-inline">
+        <span class="cert-star">✦</span>
+        <div class="cert-text">Certificado Internacional<span>Reconocido en México, LATAM y España</span></div>
+      </div>
+      <div class="cert-badge-inline">
+        <span class="cert-star">📚</span>
+        <div class="cert-text">Acceso de por vida<span>En cursos online — todas las actualizaciones</span></div>
+      </div>
+      <div class="cert-badge-inline">
+        <span class="cert-star">👥</span>
+        <div class="cert-text">Comunidad privada<span>Red activa de alumnas Brow Queen</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="sec-cta" id="contacto">
+  <span class="section-eyebrow rv">Agenda · Compra · Aprende</span>
+  <h2 class="section-title rv d1">¿Lista para tu<br>experiencia <em>Brow Queen?</em></h2>
+  <p class="section-body rv d2">Reserva tu cita, haz tu pedido o infórmate sobre los cursos. Respondemos en menos de 2 horas.</p>
+  <div class="cta-btns rv d3">
+    <a href="https://wa.me/521234567890" class="btn-cta-dark">WhatsApp →</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-top">
+    <div class="ft-brand">
+      <div class="ft-logo"><img src="https://ltveorvqvvlyivjwxjlc.supabase.co/storage/v1/object/public/brownqueen/brownqueenlogo.png?v=2" alt="Brow Queen"></div>
+      <p class="ft-about">Extensiones de cejas 100% cabello humano real. Servicio personalizado, productos profesionales y formación certificada.</p>
+      <div class="ft-soc">
+        <a href="#" class="ft-soc-btn">IG</a><a href="#" class="ft-soc-btn">WA</a>
+        <a href="#" class="ft-soc-btn">TK</a><a href="#" class="ft-soc-btn">FB</a>
+      </div>
+    </div>
+    <div class="ft-col"><h5>Servicios</h5><ul>
+      <li><a href="#servicios">Extensiones de cejas</a></li>
+      <li><a href="#servicios">Diseño personalizado</a></li>
+      <li><a href="#contacto">Agendar cita</a></li>
+    </ul></div>
+    <div class="ft-col"><h5>Tienda</h5><ul>
+      <li><a href="#tienda">Brow Extensions</a></li>
+      <li><a href="#tienda">Brow Extension Adhesive</a></li>
+      <li><a href="#tienda">Soft Remover</a></li>
+      <li><a href="#tienda">Tweezer Set</a></li>
+      <li><a href="#tienda">Spring Scissor</a></li>
+    </ul></div>
+    <div class="ft-col"><h5>Academia</h5><ul>
+      <li><a href="#academia">Curso Online</a></li>
+      <li><a href="#academia">E-Book Mini Guide</a></li>
+      <li><a href="#academia">Workshops</a></li>
+      <li><a href="#academia">Certificado Internacional</a></li>
+    </ul></div>
+  </div>
+  <div class="ft-bottom">
+    <span class="ft-copy">© 2025 Brow Queen. Todos los derechos reservados.</span>
+    <div class="ft-legal">
+      <a href="#">Aviso de privacidad</a>
+      <a href="#">Términos y condiciones</a>
+      <a href="#">Política de envíos</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ─── PRODUCT DATA ───
+const products = [
+  {
+    id: 1, imgUrl: 'https://ltveorvqvvlyivjwxjlc.supabase.co/storage/v1/object/public/brownqueen/color1.jpg', colors: [{url:'https://ltveorvqvvlyivjwxjlc.supabase.co/storage/v1/object/public/brownqueen/color1.jpg',name:'#Espresso'},{url:'https://ltveorvqvvlyivjwxjlc.supabase.co/storage/v1/object/public/brownqueen/color2.jpg',name:'#Cacao'},{url:'https://ltveorvqvvlyivjwxjlc.supabase.co/storage/v1/object/public/brownqueen/color3.jpg',name:'#Caramel'},{url:'https://ltveorvqvvlyivjwxjlc.supabase.co/storage/v1/object/public/brownqueen/color4.jpg',name:'#Honey'},{url:'https://ltveorvqvvlyivjwxjlc.supabase.co/storage/v1/object/public/brownqueen/color5.jpg',name:'#Ash'}],
+    name: 'Brow Extensions',
+    cat: 'Extensiones',
+    price: 850,
+    badge: 'Bestseller',
+    num: '01',
+    type: 'shop',
+    shortDesc: '100% cabello humano real pelo a pelo. Resultado completamente natural hasta 2 meses.',
+    desc: 'Las Brow Extensions de Brow Queen son extensiones de cejas pelo a pelo elaboradas con 100% cabello humano real. Cada pelo se aplica individualmente con un adhesivo especializado que garantiza un resultado completamente natural, imposible de distinguir de tus cejas reales. Disponibles en múltiples tonos para adaptarse perfectamente a tu color natural.',
+    features: ['100% cabello humano real', 'Duración de 4 a 8 semanas', 'Múltiples tonos disponibles', 'Aplicación pelo a pelo', 'Resultado inmediato desde la primera sesión'],
+  },
+  {
+    id: 2, imgUrl: 'https://ltveorvqvvlyivjwxjlc.supabase.co/storage/v1/object/public/brownqueen/adhesive.jpg',
+    name: 'Brow Extension Adhesive',
+    cat: 'Adhesivo',
+    price: 320,
+    badge: 'Pro',
+    num: '02',
+    type: 'shop',
+    shortDesc: 'Fijación profesional de larga duración. Resistente a humedad y sudor.',
+    desc: 'Adhesivo profesional formulado específicamente para extensiones de cejas. Su fórmula avanzada garantiza una fijación duradera resistente al agua, sudor y condiciones de humedad. Desarrollado para uso profesional, asegura que tus extensiones permanezcan perfectas durante toda su vida útil.',
+    features: ['Resistente al agua y sudor', 'Fórmula hipoalergénica', 'Secado rápido', 'Compatible con todo tipo de extensiones', 'Fijación profesional de larga duración'],
+  },
+  {
+    id: 3, imgUrl: 'https://ltveorvqvvlyivjwxjlc.supabase.co/storage/v1/object/public/brownqueen/softremover.jpg',
+    name: 'Soft Remover',
+    cat: 'Cuidado',
+    price: 280,
+    badge: 'Removedor',
+    num: '03',
+    type: 'shop',
+    shortDesc: 'Retiro suave sin daño. Fórmula hipoalergénica para uso seguro en casa.',
+    desc: 'El Soft Remover de Brow Queen está diseñado para retirar las extensiones de cejas de manera suave y sin daño al pelo natural. Su fórmula hipoalergénica es perfecta para pieles sensibles y puede usarse de manera segura en casa. Disuelve el adhesivo eficientemente sin irritación ni pérdida del pelo natural.',
+    features: ['Fórmula hipoalergénica', 'Apto para piel sensible', 'No daña el pelo natural', 'De uso seguro en casa', 'Retiro sin dolor ni irritación'],
+  },
+  {
+    id: 4, imgUrl: 'https://ltveorvqvvlyivjwxjlc.supabase.co/storage/v1/object/public/brownqueen/tweezer.jpg',
+    name: 'Tweezer Set',
+    cat: 'Herramientas',
+    price: 450,
+    badge: 'Precisión',
+    num: '04',
+    type: 'shop',
+    shortDesc: 'Set de pinzas de precisión profesional para una aplicación exacta.',
+    desc: 'Set profesional de pinzas de precisión diseñadas específicamente para la aplicación de extensiones de cejas. Fabricadas en acero inoxidable de alta calidad, ofrecen un agarre perfecto y un control total durante la aplicación. Incluye diferentes tipos de puntas para distintas técnicas de aplicación.',
+    features: ['Acero inoxidable de alta calidad', 'Puntas de precisión ultrafinas', 'Mango ergonómico antideslizante', 'Incluye 3 tipos de pinzas', 'Resistentes a la corrosión'],
+  },
+  {
+    id: 5, imgUrl: 'https://ltveorvqvvlyivjwxjlc.supabase.co/storage/v1/object/public/brownqueen/scissor.jpg',
+    name: 'Spring Scissor',
+    cat: 'Herramientas',
+    price: 380,
+    badge: 'Tijera',
+    num: '05',
+    type: 'shop',
+    shortDesc: 'Tijera de precisión con resorte para cortes ultra-finos y acabado perfecto.',
+    desc: 'La Spring Scissor es una tijera de precisión con mecanismo de resorte diseñada para el corte y ajuste de extensiones de cejas. Su sistema de resorte reduce la fatiga de la mano durante sesiones largas y garantiza cortes limpios y precisos. Ideal tanto para profesionales como para uso personal.',
+    features: ['Mecanismo de resorte anti-fatiga', 'Hojas de acero quirúrgico', 'Cortes ultraprecisos', 'Diseño ergonómico compacto', 'Ideal para profesionales y uso personal'],
+  },
+  // ── ACADEMIA ──
+  {
+    id: 6, imgUrl: 'https://ltveorvqvvlyivjwxjlc.supabase.co/storage/v1/object/public/brownqueen/curso.jpg',
+    name: 'Curso Online Brow Extensions',
+    cat: 'Curso Online',
+    price: 2499,
+    badge: 'Más vendido',
+    num: 'A1',
+    type: 'academy',
+    shortDesc: 'Aprende la técnica Hyper-Realistic completa desde cero. Acceso de por vida.',
+    desc: 'El curso online más completo de extensiones de cejas Hyper-Realistic. Aprende desde la teoría hasta la práctica con más de 6 horas de contenido en video, guías descargables y soporte directo de Brow Queen. Incluye acceso de por vida con todas las actualizaciones futuras del curso.',
+    features: ['Más de 6 horas de video en HD', 'Acceso de por vida + actualizaciones', 'Certificado Internacional al completar', 'Soporte directo con instructoras certificadas', 'Comunidad privada de alumnas incluida', 'Material teórico y guías descargables'],
+  },
+  {
+    id: 7, imgUrl: 'https://ltveorvqvvlyivjwxjlc.supabase.co/storage/v1/object/public/brownqueen/ebook.jpg',
+    name: 'E-Book Mini Guide',
+    cat: 'E-Book',
+    price: 399,
+    badge: 'Digital',
+    num: 'A2',
+    type: 'academy',
+    shortDesc: 'Guía completa de morfologías, colores y aftercare. Descarga inmediata.',
+    desc: 'El E-Book Mini Guide de Brow Queen es la guía de referencia definitiva para profesionales de extensiones de cejas. Cubre análisis de morfologías faciales, selección de tonos, técnicas de aplicación avanzadas y protocolo completo de aftercare. Descarga inmediata en PDF.',
+    features: ['Descarga inmediata en PDF', 'Guía de morfologías faciales', 'Tabla completa de tonos y colores', 'Protocolo de aftercare profesional', 'Técnicas de aplicación paso a paso', 'Actualizable con nuevas versiones'],
+  },
+  {
+    id: 8, imgUrl: 'https://ltveorvqvvlyivjwxjlc.supabase.co/storage/v1/object/public/brownqueen/workshop.jpg',
+    name: 'Workshop Presencial',
+    cat: 'Workshop',
+    price: 3800,
+    badge: 'Presencial',
+    num: 'A3',
+    type: 'academy',
+    shortDesc: 'Práctica real con modelos. Grupos reducidos. Certificado incluido.',
+    desc: 'El Workshop Presencial de Brow Queen es la experiencia de formación más completa disponible. Practica en modelos reales con supervisión directa de instructoras certificadas. Grupos máximo de 6 personas para garantizar atención personalizada. Incluye kit de materiales y Certificado Internacional.',
+    features: ['Práctica en modelos reales', 'Grupos máximo 6 personas', 'Supervisión de instructoras certificadas', 'Kit de materiales incluido', 'Certificado Internacional al finalizar', 'Duración: 1 día completo (8 horas)'],
+  },
+];
+
+// ─── CART STATE ───
+let cart = [];
+
+function fmt(n) {
+  return '$' + n.toLocaleString('es-MX');
+}
+
+function cartTotal() {
+  return cart.reduce((s, i) => s + i.price * i.qty, 0);
+}
+
+function updateCartUI() {
+  const total = cartTotal();
+  const totalItems = cart.reduce((s, i) => s + i.qty, 0);
+
+  document.getElementById('navCartCount').textContent = totalItems;
+  document.getElementById('cartItemsCount').textContent = totalItems + (totalItems === 1 ? ' producto' : ' productos');
+  document.getElementById('cartTotal').textContent = fmt(total);
+
+  const FREE_SHIP = 999;
+  const left = FREE_SHIP - total;
+  const note = document.getElementById('cartShippingNote');
+  const leftEl = document.getElementById('shippingLeft');
+  if (left <= 0) {
+    note.innerHTML = '🎉 <b style="color:var(--gold)">¡Tienes envío gratis!</b>';
+  } else {
+    note.innerHTML = `Agrega <b>${fmt(left)}</b> más para envío gratis 🚚`;
+  }
+
+  const btn = document.getElementById('checkoutBtn');
+  btn.disabled = cart.length === 0;
+
+  const container = document.getElementById('cartItems');
+  if (cart.length === 0) {
+    container.innerHTML = `<div class="cart-empty"><div class="cart-empty-ico" style="font-size:2rem;opacity:.2;font-family:serif;">✦</div><p>Tu carrito está vacío</p></div>`;
+    return;
+  }
+
+  container.innerHTML = cart.map(item => `
+    <div class="cart-item">
+      <div class="cart-item-img">${item.selectedColor ? `<img src="${item.selectedColor.url}" alt="${item.name}" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">` : `<span>${item.num}</span>`}</div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${item.name}${item.selectedColor ? `<br><span style="font-size:.6rem;color:var(--gold);font-weight:700;">${item.selectedColor.name}</span>` : ''}</div>
+        <div class="cart-item-price">${fmt(item.price)}</div>
+        <div class="cart-item-qty">
+          <button class="qty-btn" onclick="changeQty(${item.id}, -1)">−</button>
+          <span class="qty-val">${item.qty}</span>
+          <button class="qty-btn" onclick="changeQty(${item.id}, 1)">+</button>
+          <button class="cart-item-remove" onclick="removeItem(${item.id})">✕</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function changeQty(id, delta) {
+  const item = cart.find(i => i.id === id);
+  if (!item) return;
+  item.qty += delta;
+  if (item.qty <= 0) cart = cart.filter(i => i.id !== id);
+  updateCartUI();
+}
+
+function removeItem(id) {
+  cart = cart.filter(i => i.id !== id);
+  updateCartUI();
+}
+
+function addToCart(id, colorOverride) {
+  const prod = products.find(p => p.id === id);
+  const selectedColor = colorOverride || selectedColors[id] || null;
+  const cartKey = id + (selectedColor ? '_' + selectedColor.name : '');
+  const existing = cart.find(i => i.cartKey === cartKey);
+  if (existing) {
+    existing.qty++;
+  } else {
+    cart.push({ ...prod, qty: 1, cartKey, selectedColor });
+  }
+  updateCartUI();
+  closeModal();
+  openCart();
+}
+
+// ─── MODAL ───
+function openModal(id) {
+  const p = products.find(p => p.id === id);
+  // Use currently selected color if available
+  const currentColor = selectedColors[id] || (p.colors ? p.colors[0] : null);
+  const currentImg = currentColor ? currentColor.url : p.imgUrl;
+
+  document.getElementById('modalCat').textContent = p.cat;
+  document.getElementById('modalName').textContent = p.name;
+  document.getElementById('modalPrice').textContent = fmt(p.price);
+  document.getElementById('modalDesc').textContent = p.desc;
+  document.getElementById('modalFeatures').innerHTML = `
+    <h4>Características</h4>
+    <ul>${p.features.map(f => `<li>${f}</li>`).join('')}</ul>
+  `;
+
+  // Color selector inside modal
+  if (p.colors) {
+    document.getElementById('modalFeatures').innerHTML += `
+      <div style="margin-top:18px;">
+        <h4 style="margin-bottom:10px;">Tono</h4>
+        <div class="modal-colors" id="modalColorPicker">
+          ${p.colors.map((c,i) => `
+            <button class="modal-color-btn ${i===0?'active':''}"
+              onclick="selectModalColor(${p.id}, this, '${c.url}', '${c.name}')"
+              style="background-image:url('${c.url}')">
+              <span>${c.name}</span>
+            </button>
+          `).join('')}
+        </div>
+      </div>`;
+  }
+
+  document.getElementById('modalAddBtn').onclick = () => {
+    const color = selectedColors[id] || (p.colors ? p.colors[0] : null);
+    addToCart(p.id, color);
+  };
+
+  document.getElementById('modalImg').innerHTML = currentImg
+    ? `<img src="${currentImg}" alt="${p.name}" id="modalMainImg" style="width:100%;height:100%;object-fit:cover;border-radius:24px 0 0 24px;">`
+    : `<span class="modal-img-ph">Foto próximamente</span>`;
+
+  document.getElementById('productModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function selectModalColor(productId, btn, imgUrl, colorName) {
+  selectedColors[productId] = { url: imgUrl, name: colorName };
+  // Update modal image
+  const modalImg = document.getElementById('modalMainImg');
+  if (modalImg) modalImg.src = imgUrl;
+  // Update card image too
+  const cardImg = document.getElementById('card-img-' + productId);
+  if (cardImg) cardImg.src = imgUrl;
+  // Update modal color buttons
+  btn.closest('.modal-colors').querySelectorAll('.modal-color-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  // Sync card dots
+  const cardDots = document.querySelectorAll(`#productsGrid .color-dot`);
+  // update add button label
+}
+
+function closeModal() {
+  document.getElementById('productModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('productModal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+// ─── CART ───
+function openCart() {
+  document.getElementById('cartDrawer').classList.add('open');
+  document.getElementById('cartOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeCart() {
+  document.getElementById('cartDrawer').classList.remove('open');
+  document.getElementById('cartOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ─── RENDER PRODUCTS ───
+// ─── RENDER SHOP PRODUCTS ───
+// Track selected colors per product
+const selectedColors = {};
+
+function renderCard(p) {
+  if (p.colors) selectedColors[p.id] = p.colors[0];
+  const imgHtml = p.imgUrl
+    ? `<img src="${p.imgUrl}" alt="${p.name}" id="card-img-${p.id}">`
+    : `<span class="prod-num">${p.num}</span>`;
+  const colorDots = p.colors ? `
+    <div class="color-dots">
+      ${p.colors.map((c,i) => `<button class="color-dot ${i===0?'active':''}" title="${c.name}" onclick="event.stopPropagation();switchColor(${p.id},this,'${c.url}','${c.name}')" style="background-image:url('${c.url}')"></button>`).join('')}
+    </div>` : '';
+  return `
+  <div class="prod-card rv" onclick="openModal(${p.id})">
+    <div class="prod-img-wrap">
+      ${imgHtml}
+      <span class="prod-badge">${p.badge}</span>
+    </div>
+    <div class="prod-body">
+      <div class="prod-cat">${p.cat}</div>
+      <h3 class="prod-name">${p.name}</h3>
+      ${colorDots}
+      <p class="prod-desc-short">${p.shortDesc}</p>
+      <div class="prod-footer">
+        <span class="prod-price">${fmt(p.price)} <span>MXN</span></span>
+        <button class="prod-cta" onclick="event.stopPropagation();openModal(${p.id})">Ver más</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function switchColor(productId, btn, imgUrl, colorName) {
+  // Update selected color tracking
+  selectedColors[productId] = { url: imgUrl, name: colorName };
+  // Update card image
+  const img = document.getElementById('card-img-' + productId);
+  if (img) img.src = imgUrl;
+  // Update active dot
+  btn.closest('.color-dots').querySelectorAll('.color-dot').forEach(d => d.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+document.getElementById('productsGrid').innerHTML = products.filter(p => p.type === 'shop').map(renderCard).join('');
+
+// ─── RENDER ACADEMY PRODUCTS ───
+document.getElementById('academyGrid').innerHTML = products.filter(p => p.type === 'academy').map(renderCard).join('');
+
+// ─── SCROLL REVEAL ───
+const io = new IntersectionObserver(
+  e => e.forEach(x => x.isIntersecting && x.target.classList.add('in')),
+  { threshold: .06 }
+);
+document.querySelectorAll('.rv').forEach(el => io.observe(el));
+
+
+// ═══════════════════════════════
+// BOOKING SYSTEM
+// ═══════════════════════════════
+const SUPABASE_URL = 'https://ltveorvqvvlyivjwxjlc.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx0dmVvcnZxdnZseWl2and4amxjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDAwMDAwMDAsImV4cCI6MjAxNTM2MDAwMH0.PLACEHOLDER';
+
+// Available time slots
+const TIME_SLOTS = [
+  '09:00', '10:00', '11:00', '12:00',
+  '13:00', '14:00', '15:00', '16:00',
+  '17:00', '18:00'
+];
+
+// Booking state
+let bkState = {
+  step: 1,
+  year: null, month: null,   // calendar nav
+  selectedDate: null,         // 'YYYY-MM-DD'
+  selectedTime: null,
+  bookedSlots: []             // slots already taken from Supabase
+};
+
+function openBooking() {
+  const now = new Date();
+  bkState.year = now.getFullYear();
+  bkState.month = now.getMonth();
+  bkState.selectedDate = null;
+  bkState.selectedTime = null;
+  goStep(1);
+  renderCal();
+  document.getElementById('bookingOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeBooking() {
+  document.getElementById('bookingOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+  // reset panels
+  goStep(1);
+  document.getElementById('bkNombre').value = '';
+  document.getElementById('bkApellido').value = '';
+  document.getElementById('bkTel').value = '';
+  document.getElementById('bkEmail').value = '';
+  document.getElementById('bkNotas').value = '';
+}
+
+document.getElementById('bookingOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeBooking();
+});
+
+// ── STEPS ──
+function goStep(n) {
+  bkState.step = n;
+  [1,2,3,'success'].forEach(s => {
+    const panel = document.getElementById('bk-panel-' + s);
+    if (panel) panel.classList.toggle('active', s === n);
+  });
+  // Update step indicators
+  [1,2,3].forEach(i => {
+    const ind = document.getElementById('step-ind-' + i);
+    if (!ind) return;
+    ind.classList.remove('active','done');
+    if (i === n) ind.classList.add('active');
+    else if (i < n) ind.classList.add('done');
+  });
+  if (n === 2) renderSlots();
+  if (n === 3) renderSummary();
+}
+
+// ── CALENDAR ──
+const MONTHS_ES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+const DAYS_ES   = ['Lu','Ma','Mi','Ju','Vi','Sá','Do'];
+
+function calPrev() {
+  bkState.month--;
+  if (bkState.month < 0) { bkState.month = 11; bkState.year--; }
+  renderCal();
+}
+function calNext() {
+  bkState.month++;
+  if (bkState.month > 11) { bkState.month = 0; bkState.year++; }
+  renderCal();
+}
+
+function renderCal() {
+  const { year, month } = bkState;
+  document.getElementById('calMonth').textContent = MONTHS_ES[month] + ' ' + year;
+  const grid = document.getElementById('calGrid');
+
+  // Day-of-week headers (Mon-Sun)
+  let html = DAYS_ES.map(d => `<div class="bk-cal-dow">${d}</div>`).join('');
+
+  const first = new Date(year, month, 1);
+  const lastDay = new Date(year, month + 1, 0).getDate();
+  const today = new Date();
+  today.setHours(0,0,0,0);
+
+  // Monday-based offset
+  let startDow = first.getDay(); // 0=Sun
+  startDow = startDow === 0 ? 6 : startDow - 1;
+  for (let i = 0; i < startDow; i++) html += '<div class="bk-cal-day empty"></div>';
+
+  for (let d = 1; d <= lastDay; d++) {
+    const date = new Date(year, month, d);
+    const isPast = date < today;
+    const isSun = date.getDay() === 0;
+    const isToday = date.toDateString() === today.toDateString();
+    const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const isSelected = bkState.selectedDate === dateStr;
+    const cls = [
+      'bk-cal-day',
+      isPast || isSun ? 'past' : '',
+      isToday ? 'today' : '',
+      isSelected ? 'selected' : ''
+    ].filter(Boolean).join(' ');
+    const click = (!isPast && !isSun) ? `onclick="selectDate('${dateStr}')"` : '';
+    html += `<div class="${cls}" ${click}>${d}</div>`;
+  }
+
+  grid.innerHTML = html;
+}
+
+function selectDate(dateStr) {
+  bkState.selectedDate = dateStr;
+  bkState.selectedTime = null;
+  renderCal();
+  document.getElementById('btn-to-2').disabled = false;
+  // Fetch booked slots from Supabase
+  fetchBookedSlots(dateStr);
+}
+
+async function fetchBookedSlots(dateStr) {
+  try {
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/citas?fecha=eq.${dateStr}&select=hora`,
+      { headers: { apikey: SUPABASE_KEY, Authorization: 'Bearer ' + SUPABASE_KEY } }
+    );
+    const data = await res.json();
+    bkState.bookedSlots = Array.isArray(data) ? data.map(r => r.hora) : [];
+  } catch(e) {
+    bkState.bookedSlots = [];
+  }
+}
+
+// ── SLOTS ──
+function renderSlots() {
+  const dateObj = new Date(bkState.selectedDate + 'T12:00:00');
+  const formatted = dateObj.toLocaleDateString('es-MX', { weekday:'long', day:'numeric', month:'long' });
+  document.getElementById('selectedDateText').textContent =
+    formatted.charAt(0).toUpperCase() + formatted.slice(1);
+
+  const grid = document.getElementById('slotsGrid');
+  grid.innerHTML = TIME_SLOTS.map(t => {
+    const taken = bkState.bookedSlots.includes(t);
+    const selected = bkState.selectedTime === t;
+    const cls = ['bk-slot', taken ? 'unavailable' : '', selected ? 'selected' : ''].filter(Boolean).join(' ');
+    const click = !taken ? `onclick="selectSlot('${t}')"` : '';
+    return `<div class="${cls}" ${click}>${t}</div>`;
+  }).join('');
+}
+
+function selectSlot(time) {
+  bkState.selectedTime = time;
+  renderSlots();
+  document.getElementById('btn-to-3').disabled = false;
+}
+
+// ── SUMMARY ──
+function renderSummary() {
+  const dateObj = new Date(bkState.selectedDate + 'T12:00:00');
+  const formatted = dateObj.toLocaleDateString('es-MX', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+  document.getElementById('bkSummary').innerHTML = `
+    <div class="bk-summary-row">
+      <span class="bk-summary-label">Servicio</span>
+      <span class="bk-summary-val">Extensiones de Cejas BQ</span>
+    </div>
+    <div class="bk-summary-row">
+      <span class="bk-summary-label">Fecha</span>
+      <span class="bk-summary-val">${formatted.charAt(0).toUpperCase() + formatted.slice(1)}</span>
+    </div>
+    <div class="bk-summary-row">
+      <span class="bk-summary-label">Hora</span>
+      <span class="bk-summary-val">${bkState.selectedTime} hrs</span>
+    </div>
+  `;
+  checkForm();
+}
+
+function checkForm() {
+  const ok = document.getElementById('bkNombre').value.trim() &&
+             document.getElementById('bkApellido').value.trim() &&
+             document.getElementById('bkTel').value.trim() &&
+             document.getElementById('bkEmail').value.trim();
+  const btn = document.getElementById('btn-confirmar');
+  if (btn) btn.disabled = !ok;
+}
+
+// ── CONFIRM → SAVE TO SUPABASE ──
+async function confirmarCita() {
+  const btn = document.getElementById('btn-confirmar');
+  btn.disabled = true;
+  btn.textContent = 'Guardando...';
+
+  const payload = {
+    fecha:      bkState.selectedDate,
+    hora:       bkState.selectedTime,
+    nombre:     document.getElementById('bkNombre').value.trim(),
+    apellido:   document.getElementById('bkApellido').value.trim(),
+    telefono:   document.getElementById('bkTel').value.trim(),
+    email:      document.getElementById('bkEmail').value.trim(),
+    primera_vez: document.getElementById('bkPrimera').value || null,
+    notas:      document.getElementById('bkNotas').value.trim() || null,
+    estado:     'pendiente'
+  };
+
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/citas`, {
+      method: 'POST',
+      headers: {
+        apikey: SUPABASE_KEY,
+        Authorization: 'Bearer ' + SUPABASE_KEY,
+        'Content-Type': 'application/json',
+        Prefer: 'return=representation'
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (res.ok || res.status === 201) {
+      // Show success
+      const dateObj = new Date(bkState.selectedDate + 'T12:00:00');
+      const formatted = dateObj.toLocaleDateString('es-MX', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+      document.getElementById('successDetails').innerHTML = `
+        <div class="bk-summary-row"><span class="bk-summary-label">Nombre</span><span class="bk-summary-val">${payload.nombre} ${payload.apellido}</span></div>
+        <div class="bk-summary-row"><span class="bk-summary-label">Fecha</span><span class="bk-summary-val">${formatted.charAt(0).toUpperCase() + formatted.slice(1)}</span></div>
+        <div class="bk-summary-row"><span class="bk-summary-label">Hora</span><span class="bk-summary-val">${payload.hora} hrs</span></div>
+        <div class="bk-summary-row"><span class="bk-summary-label">Contacto</span><span class="bk-summary-val">${payload.telefono}</span></div>
+      `;
+      goStep('success');
+    } else {
+      alert('Hubo un error al guardar tu cita. Por favor intenta de nuevo o contáctanos por WhatsApp.');
+      btn.disabled = false;
+      btn.textContent = 'Confirmar cita ✓';
+    }
+  } catch(e) {
+    alert('Error de conexión. Por favor intenta de nuevo.');
+    btn.disabled = false;
+    btn.textContent = 'Confirmar cita ✓';
+  }
+}
+
+// Initialize cart UI
+updateCartUI();
+</script>
+
+<!-- FLOATING SOCIALS -->
+<div class="float-socials">
+  <a href="https://instagram.com/" target="_blank" class="float-btn float-ig" title="Instagram">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+    </svg>
+  </a>
+</div>
+</body>
+</html>
